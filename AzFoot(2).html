@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sabah FK — матчи 2026/27</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:#fff;color:#000;-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;border:0;background:none}
+ul{list-style:none}
+.page{position:relative;min-height:100vh;background:#fff;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px;pointer-events:none}
+.nav>*{pointer-events:auto}
+.nav-left,.nav-right,.logo{display:flex;align-items:center;gap:8px}
+.brand{display:none;font-weight:600;font-size:15px;letter-spacing:-0.02em}
+.menu{display:flex;align-items:center;gap:8px;background:#000;color:#fff;border-radius:999px;padding:3px 12px 3px 3px;font-size:11px}
+.menu-dot,.circle{width:22px;height:22px;border-radius:50%;display:grid;place-items:center}
+.menu-dot{background:#fff}
+.tags-pill{display:none;background:#F4F4F6;border-radius:999px;padding:8px 16px;gap:16px;font-size:11px;color:rgba(0,0,0,.7)}
+.right-pill{display:flex;align-items:center;gap:8px;background:#F4F4F6;border-radius:999px;padding:3px}
+.circle{background:#000;width:28px;height:28px}
+.right-label{display:none;font-size:11px;padding-right:12px;color:rgba(0,0,0,.7)}
+.video-wrap{position:absolute;inset:0;z-index:0;display:flex;align-items:center;justify-content:center}
+.video-inner{width:80%;height:80%}
+.video-inner video{width:100%;height:100%;object-fit:cover}
+.spacer{flex:1}
+.footer{position:relative;z-index:30;display:flex;flex-direction:column;gap:20px;padding:80px 16px 24px;background:linear-gradient(to top,#ffffff 0%,rgba(255,255,255,.8) 50%,transparent 100%)}
+.subtitle{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(0,0,0,.55);margin-bottom:12px}
+.dot{width:8px;height:8px;border-radius:50%;background:#000;display:block}
+h1{font-weight:300;font-size:clamp(2rem,8vw,4.5rem);letter-spacing:-0.03em;line-height:1}
+.btns{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.btn{font-size:13px;padding:10px 20px;border-radius:999px}
+.solid{background:#000;color:#fff}
+.ghost{border:1px solid rgba(0,0,0,.35);color:#000}
+.foot-right{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:999px;padding:6px 14px;font-size:11px}
+.matches{max-width:880px;margin:0 auto;padding:72px 16px 48px}
+.matches h2{font-weight:300;font-size:clamp(1.8rem,5vw,2.8rem);letter-spacing:-0.03em;margin-bottom:24px}
+.tabs{display:flex;gap:8px;margin-bottom:24px}
+.tab{font-size:13px;padding:8px 18px;border-radius:999px;background:#F4F4F6;color:rgba(0,0,0,.7)}
+.tab.on{background:#000;color:#fff}
+.row{display:grid;grid-template-columns:96px 1fr;gap:4px 12px;padding:16px 0;border-top:1px solid rgba(0,0,0,.1);font-size:14px}
+.date{font-weight:500}
+.comp,.note{font-size:11px;color:rgba(0,0,0,.5)}
+.teams{grid-column:1/-1;display:flex;align-items:center;gap:12px}
+.teams b{font-weight:400;flex:1}
+.teams b:first-child{text-align:right}
+.teams .us{font-weight:600}
+.score{min-width:64px;text-align:center;padding:4px 10px;border-radius:8px;font-weight:600;background:#F4F4F6}
+.score.win{background:#000;color:#fff}
+.score.loss{border:1px solid #000}
+.score.next{color:rgba(0,0,0,.45);font-weight:400}
+.note{grid-column:1/-1}
+.foot-note{margin-top:24px;font-size:11px;color:rgba(0,0,0,.45)}
+.arch{max-width:880px;margin:0 auto;padding:0 16px 72px}
+.arch h2{font-weight:300;font-size:clamp(1.8rem,5vw,2.8rem);letter-spacing:-0.03em;margin-bottom:8px}
+.arch>p{font-size:13px;color:rgba(0,0,0,.55);margin-bottom:20px}
+.card{border-top:1px solid rgba(0,0,0,.1);padding:18px 0;display:grid;gap:6px}
+.card b{font-weight:600;font-size:15px}
+.card span{font-size:14px;color:rgba(0,0,0,.75);line-height:1.5}
+.card a{font-size:12px;color:#000;font-weight:500}
+.lang{display:flex;background:#F4F4F6;border-radius:999px;padding:3px;gap:2px;margin-right:8px}
+.lang button{font-size:11px;font-weight:500;padding:5px 9px;border-radius:999px;color:rgba(0,0,0,.6)}
+.lang button.on{background:#000;color:#fff}
+.nav-right{display:flex;align-items:center}
+.tixbtn{grid-column:1/-1;justify-self:start;font-size:12px;padding:6px 14px;border-radius:999px;background:#000;color:#fff}
+.tix{grid-column:1/-1;display:none;background:#F4F4F6;border-radius:14px;padding:14px 16px;font-size:13px;gap:8px;flex-direction:column}
+.tix.open{display:flex}
+.tix a{color:#000;font-weight:500}
+.tix small{color:rgba(0,0,0,.55);display:block;font-size:11px;font-weight:400}
+.squad{max-width:880px;margin:0 auto;padding:24px 16px 72px}
+.squad h2{font-weight:300;font-size:clamp(1.8rem,5vw,2.8rem);letter-spacing:-0.03em;margin-bottom:8px}
+.coach{font-size:13px;color:rgba(0,0,0,.55);margin-bottom:24px}
+.pos{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(0,0,0,.5);margin:24px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.pl{border:1px solid rgba(0,0,0,.12);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:2px}
+.pl .n{font-size:22px;font-weight:300;letter-spacing:-0.03em}
+.pl .nm{font-size:14px;font-weight:500}
+.pl .mv{font-size:12px;font-weight:500;margin-top:6px}
+.pl .meta{font-size:11px;color:rgba(0,0,0,.5)}
+#home,#table{min-height:100vh}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px;background:linear-gradient(#fff 60%,transparent)}
+.hw{max-width:880px;margin:0 auto;padding:110px 16px 64px}
+#clubs{grid-template-columns:repeat(auto-fill,minmax(190px,1fr));margin-top:36px}
+.club{text-align:left;background:#fff;transition:background .2s}.club:hover{background:#F4F4F6}
+.mono{width:36px;height:36px;border-radius:50%;background:#000;color:#fff;display:grid;place-items:center;font-size:12px;margin-bottom:12px}
+.club .nm{font-size:17px}
+.tw{overflow-x:auto}.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{font-size:11px;font-weight:500;color:rgba(0,0,0,.5);padding:8px 6px;text-align:center}
+.tbl td{padding:12px 6px;text-align:center;border-top:1px solid rgba(0,0,0,.1)}
+.tbl .l{text-align:left}.tbl td.l button{font-weight:500;text-align:left}.tbl .pts{font-weight:600}.tbl tr.me td{background:#F4F4F6}
+@media (min-width:768px){
+ .nav{padding:24px 32px}
+ .nav-left{gap:12px}
+ .brand,.right-label{display:inline}
+ .tags-pill{display:flex}
+ .menu-dot{width:26px;height:26px}
+ .circle{width:32px;height:32px}
+ .video-inner{width:100%;height:100%}
+ .footer{flex-direction:row;justify-content:space-between;align-items:flex-end;padding:120px 32px 32px}
+ h1{font-size:clamp(2.5rem,5.5vw,4.5rem)}
+ .row{grid-template-columns:110px 200px 1fr 150px;align-items:center}
+ .teams{grid-column:auto}
+ .note{grid-column:auto;text-align:right}
+}
+.best{max-width:880px;margin:0 auto;padding:24px 16px 72px}
+.best h2{font-weight:300;font-size:clamp(1.8rem,5vw,2.8rem);letter-spacing:-0.03em;margin-bottom:8px}
+#bestlist{list-style:none;padding:0;margin:20px 0 0;display:flex;flex-direction:column;gap:8px}
+.brow{display:flex;align-items:center;gap:16px;border:1px solid rgba(0,0,0,.12);border-radius:14px;padding:14px 18px}
+.brow .rk{font-size:26px;font-weight:300;letter-spacing:-0.03em;width:40px}
+.brow .bi{flex:1;display:flex;flex-direction:column;gap:2px}
+.brow .bn{font-size:15px;font-weight:500}
+.brow .bc{font-size:11px;color:rgba(0,0,0,.5)}
+.brow .bv{font-size:14px;font-weight:500;white-space:nowrap}
+.brow.top{background:#000;color:#fff;border-color:#000}
+.brow.top .bc{color:rgba(255,255,255,.6)}
+
+.game{max-width:880px;margin:0 auto;padding:24px 16px 72px}
+.game h2{font-weight:300;font-size:clamp(1.8rem,5vw,2.8rem);letter-spacing:-0.03em;margin-bottom:8px}
+.gbar{display:flex;align-items:center;justify-content:space-between;margin:16px 0 10px;font-size:14px}
+.gdots{display:flex;gap:8px}
+.gdots i{width:16px;height:16px;border-radius:50%;border:1.5px solid rgba(0,0,0,.3);display:block}
+.gdots i.g{background:#1a9a4b;border-color:#1a9a4b}.gdots i.m{background:#d33;border-color:#d33}
+.stage{position:relative;height:300px;border-radius:18px;overflow:hidden;background:linear-gradient(#2e9e55,#237a42);user-select:none;cursor:crosshair;touch-action:manipulation}
+.goal{position:absolute;top:22px;left:15%;width:70%;height:120px;border:4px solid #fff;border-bottom:none;background:repeating-linear-gradient(45deg,rgba(255,255,255,.12) 0 2px,transparent 2px 10px)}
+.keeper{position:absolute;top:62px;left:50%;font-size:46px;transform:translateX(-50%);transition:left .35s ease-out,transform .35s ease-out;line-height:1}
+.keeper.L{left:22%;transform:translateX(-50%) rotate(-50deg)}.keeper.R{left:78%;transform:translateX(-50%) rotate(50deg)}
+.ball{position:absolute;left:50%;top:238px;font-size:30px;transform:translateX(-50%);transition:left .45s ease-in,top .45s ease-in;line-height:1}
+.ball.L{left:26%;top:92px}.ball.R{left:74%;top:92px}
+.gmsg{position:absolute;left:0;right:0;bottom:12px;text-align:center;color:#fff;font-weight:500;font-size:22px;text-shadow:0 1px 6px rgba(0,0,0,.4);min-height:30px}
+.gctl{display:flex;gap:10px;margin-top:12px}.gctl .btn{flex:1}
+
+.pack{max-width:880px;margin:0 auto;padding:24px 16px 72px}
+.pack h2{font-weight:300;font-size:clamp(1.8rem,5vw,2.8rem);letter-spacing:-0.03em;margin-bottom:8px}
+.pk-wrap{display:flex;flex-direction:column;align-items:center;gap:18px;margin-top:20px}
+.pk{width:190px;height:260px;border-radius:18px;border:none;cursor:pointer;color:#fff;font:inherit;background:linear-gradient(135deg,#0b0b0b 0 50%,#1e5bd8 50% 100%);box-shadow:0 12px 30px rgba(0,0,0,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:transform .2s}
+.pk:hover{transform:translateY(-4px) rotate(-1deg)}
+.pk b{font-size:22px;font-weight:500;letter-spacing:-.02em}.pk small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.pk.zoom{animation:pkz 1s ease-in-out;z-index:5;position:relative}
+@keyframes pkz{0%{transform:scale(1)}25%{transform:scale(1.5) rotate(-5deg)}40%{transform:scale(1.6) rotate(5deg)}55%{transform:scale(1.7) rotate(-4deg);box-shadow:0 0 60px 20px rgba(255,215,0,.7)}80%{transform:scale(1.9);box-shadow:0 0 120px 60px rgba(255,255,255,.95);filter:brightness(1.6)}100%{transform:scale(1)}}
+.pc .f .rt{font-size:38px;font-weight:600;letter-spacing:-.04em;line-height:1}
+.pc .f .ps{font-size:10px;letter-spacing:.1em;opacity:.55}
+.pc.pop{animation:pop .5s}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes pks{0%,100%{transform:rotate(0)}20%{transform:rotate(-6deg)}40%{transform:rotate(6deg)}60%{transform:rotate(-4deg)}80%{transform:rotate(4deg)}}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;width:100%}
+.pc{height:200px;perspective:700px;cursor:pointer}
+.pc>div{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.pc.up>div{transform:rotateY(180deg)}
+.pc .f,.pc .b{position:absolute;inset:0;border-radius:16px;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:10px;text-align:center}
+.pc .b{background:linear-gradient(135deg,#0b0b0b 0 50%,#1e5bd8 50% 100%);color:#fff;font-size:30px}
+.pc .f{transform:rotateY(180deg);border:2px solid rgba(0,0,0,.15);background:#fff}
+.pc .f .rr{font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.7}
+.pc .f .pn{font-size:16px;font-weight:500;letter-spacing:-.01em}
+.pc .f .pcl{font-size:12px;padding:3px 10px;border-radius:99px;color:#fff}
+.pc .f .pcl.S{background:#1e5bd8}.pc .f .pcl.Q{background:#111}
+.pc .f .pv{font-size:11px;color:rgba(0,0,0,.5)}
+.pc.rare .f{border-color:#d9a400;background:linear-gradient(#fff8dc,#fff)}
+.pc.leg .f{border-color:#8a3ffc;background:linear-gradient(#efe3ff,#fff);box-shadow:0 0 18px rgba(138,63,252,.5)}
+
+.tkbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:16px 0 4px;padding:12px 16px;border:1px solid rgba(0,0,0,.12);border-radius:14px;font-size:15px}
+.tkbar b{font-size:22px;font-weight:600}
+.clkwrap{position:relative}
+#clk:active{transform:scale(.94)}
+.fl{position:absolute;right:14px;top:-4px;font-weight:600;color:#1a9a4b;pointer-events:none;animation:fl .8s forwards}
+@keyframes fl{to{transform:translateY(-34px);opacity:0}}
+.collh{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(0,0,0,.5);width:100%;margin-top:10px}
+.coll{display:flex;flex-wrap:wrap;gap:8px;width:100%}
+.coll span{border:1px solid rgba(0,0,0,.15);border-radius:99px;padding:6px 12px;font-size:12px}
+.coll span b{font-weight:600;margin-right:6px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal.open{display:flex}
+.mbox{background:#fff;border-radius:22px;padding:24px;width:min(320px,100%);text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;animation:mz .35s cubic-bezier(.2,1.2,.4,1)}
+@keyframes mz{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.mcard{width:220px;border-radius:18px;padding:22px 12px;border:3px solid rgba(0,0,0,.15);display:flex;flex-direction:column;align-items:center;gap:6px;background:#fff}
+.mcard.rare{border-color:#d9a400;background:linear-gradient(#fff8dc,#fff)}
+.mcard.leg{border-color:#8a3ffc;background:linear-gradient(#efe3ff,#fff);box-shadow:0 0 28px rgba(138,63,252,.5)}
+.mcard .rt{font-size:64px;font-weight:600;letter-spacing:-.04em;line-height:1}
+.mcard .pn{font-size:20px;font-weight:500}
+.mcard .rr,.mcard .ps{font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.6}
+.mcard .pcl{font-size:12px;padding:3px 12px;border-radius:99px;color:#fff}.mcard .pcl.S{background:#1e5bd8}.mcard .pcl.Q{background:#111}
+.mprice{font-size:18px;margin-top:6px}.mmsg{font-size:12px;color:#d33;min-height:16px}
+.mbtns{display:flex;gap:8px;width:100%}.mbtns .btn{flex:1}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+
+.idx{max-width:880px;margin:0 auto;padding:24px 16px 72px}
+.idx h2{font-weight:300;font-size:clamp(1.8rem,5vw,2.8rem);letter-spacing:-0.03em;margin-bottom:8px}
+.ixpitch{position:relative;height:540px;border-radius:18px;overflow:hidden;background:linear-gradient(#2e9e55,#237a42);margin-top:16px;touch-action:none}
+.ixz{position:absolute;left:0;right:0;height:33.34%;border-top:2px dashed rgba(255,255,255,.55);color:rgba(255,255,255,.85);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:8px 12px}
+.ixz:first-child{border-top:none}
+.ixbench{display:flex;flex-wrap:wrap;gap:10px;min-height:96px;padding:14px;border:1.5px dashed rgba(0,0,0,.25);border-radius:14px;margin-top:8px;align-items:center}
+.ixbench em{font-size:12px;color:rgba(0,0,0,.5)}
+.ixchip{width:62px;padding:7px 4px;border-radius:12px;background:#fff;border:2px solid #111;display:flex;flex-direction:column;align-items:center;gap:1px;cursor:grab;user-select:none;touch-action:none;box-shadow:0 3px 8px rgba(0,0,0,.25)}
+.ixchip.S{border-color:#1e5bd8}.ixchip.Q{border-color:#111}
+.ixchip b{font-size:20px;font-weight:600;letter-spacing:-.03em;line-height:1}
+.ixchip span{font-size:10px;font-weight:500;max-width:56px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ixchip.onp{position:absolute;transform:translate(-50%,-50%)}
+.ixchip.ghost{position:fixed!important;transform:translate(-50%,-50%) scale(1.15);pointer-events:none;z-index:70;cursor:grabbing}
+#home .game,#home .pack,#home .idx,#home .best{scroll-margin-top:72px}
+.modal{z-index:90}
+
+/* ===== ANIMATIONS ===== */
+:root{--ez:cubic-bezier(.16,1,.3,1)}
+body{animation:fadein .6s ease both}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes fadedown{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,0,0,.35)}70%{box-shadow:0 0 0 8px rgba(0,0,0,0)}100%{box-shadow:0 0 0 0 rgba(0,0,0,0)}}
+@keyframes legglow{0%,100%{box-shadow:0 0 14px rgba(138,63,252,.4)}50%{box-shadow:0 0 36px rgba(138,63,252,.95)}}
+@keyframes rareglow{0%,100%{box-shadow:0 0 6px rgba(217,164,0,.3)}50%{box-shadow:0 0 22px rgba(217,164,0,.85)}}
+@keyframes sheen{from{background-position:130% 0}to{background-position:-130% 0}}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -9px}}
+@keyframes sway{0%,100%{translate:-16px 0}50%{translate:16px 0}}
+@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@keyframes flash{from{opacity:1}to{opacity:0}}
+@keyframes shake{0%,100%{translate:0 0}20%{translate:-8px 0}40%{translate:7px 0}60%{translate:-5px 0}80%{translate:3px 0}}
+@keyframes pop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.2);opacity:1}100%{transform:scale(1)}}
+@keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.35);color:#1a9a4b}100%{transform:scale(1)}}
+@keyframes dotpop{0%{transform:scale(.2)}60%{transform:scale(1.5)}100%{transform:scale(1)}}
+@keyframes cardin{from{opacity:0;transform:translateY(40px) scale(.85)}to{opacity:1;transform:none}}
+@keyframes chipin{from{scale:.3;opacity:0}60%{scale:1.15;opacity:1}to{scale:1}}
+@keyframes cf{to{transform:translate(var(--dx),340px) rotate(var(--r));opacity:.9}}
+@keyframes pitchglow{0%,100%{box-shadow:inset 0 0 0 3px rgba(255,255,255,.35)}50%{box-shadow:inset 0 0 0 3px rgba(255,255,255,.9)}}
+@keyframes benchglow{0%,100%{border-color:rgba(0,0,0,.25)}50%{border-color:#1e5bd8}}
+
+#prog{position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1e5bd8,#000);transform-origin:0 0;transform:scaleX(0);z-index:200;pointer-events:none}
+
+/* переходы между экранами */
+.vin .topbar{animation:fadedown .6s var(--ez) both}
+#home.vin .hw .subtitle{animation:rise .8s var(--ez) .1s both}
+#home.vin .hw h1{animation:rise .8s var(--ez) .2s both}
+#home.vin .hw .btns{animation:rise .8s var(--ez) .35s both}
+#table.vin .matches h2{animation:rise .7s var(--ez) .1s both}
+
+/* ховеры */
+.dot{animation:pulse 2s infinite}
+.btn,.tab,.tixbtn,.menu,.circle,.chip,.lang button{transition:transform .2s var(--ez),background .2s,color .2s,box-shadow .2s,border-color .2s}
+.btn:hover,.tab:hover,.tixbtn:hover,.menu:hover{transform:translateY(-2px)}
+.btn.solid:hover,.tixbtn:hover{box-shadow:0 6px 16px rgba(0,0,0,.22)}
+.btn.ghost:hover{background:#000;color:#fff;border-color:#000}
+.btn:active,.tab:active,.tixbtn:active,.menu:active{transform:scale(.95)}
+.btn[disabled]:hover{transform:none;box-shadow:none}
+.circle:hover{transform:rotate(90deg)}
+.chip:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.logo svg{transition:transform .5s var(--ez)}.logo:hover svg{transform:rotate(-20deg) scale(1.15)}
+.row{transition:background .2s,padding-left .25s var(--ez)}.row:hover{background:#fafafa;padding-left:8px}
+.pl{transition:transform .25s var(--ez),box-shadow .25s,background .2s}
+.pl:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.09)}
+.mono{transition:transform .35s var(--ez)}.club:hover .mono{transform:scale(1.15) rotate(-8deg)}
+.tbl tbody tr{transition:background .2s}.tbl tbody tr:hover td{background:#F4F4F6}
+.tbl td.l button{transition:letter-spacing .25s,transform .25s var(--ez)}.tbl td.l button:hover{transform:translateX(4px)}
+.brow{transition:transform .25s var(--ez),box-shadow .25s}.brow:hover{transform:translateX(6px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.brow.top{background-image:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.2) 50%,transparent 65%);background-size:250% 100%;animation:sheen 3.2s linear infinite}
+.card{transition:padding-left .25s var(--ez)}.card:hover{padding-left:8px}
+.ixchip{transition:translate .2s,box-shadow .2s}.ixchip:hover{translate:0 -3px;box-shadow:0 8px 16px rgba(0,0,0,.3)}
+.ixchip.drop{animation:chipin .5s cubic-bezier(.2,1.4,.4,1)}
+.ixpitch.dragging{animation:pitchglow 1s infinite}.ixbench.dragging{animation:benchglow 1s infinite}
+
+/* пенальти */
+.ball{transition:left .45s ease-in,top .45s ease-in,transform .45s ease-in}
+.ball.L,.ball.R{transform:translateX(-50%) scale(.65) rotate(720deg)}
+.ball:not(.L):not(.R){animation:bob 1.4s ease-in-out infinite}
+.keeper:not(.L):not(.R){animation:sway 2.2s ease-in-out infinite}
+.stage.goalfx::after{content:'';position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,.7),transparent 70%);animation:flash .6s forwards;pointer-events:none}
+.stage.shake{animation:shake .45s}
+.gmsg.pop{animation:pop .5s}
+.gdots i.n{animation:dotpop .5s}
+.cf{position:absolute;top:-12px;width:8px;height:12px;border-radius:2px;animation:cf 1.6s ease-in forwards;pointer-events:none}
+#gscore{display:inline-block}
+
+/* паки */
+.pk:not(.zoom){animation:float 3s ease-in-out infinite}
+.pc{animation:cardin .55s var(--ez) both}
+.pc:nth-child(2){animation-delay:.08s}.pc:nth-child(3){animation-delay:.16s}.pc:nth-child(4){animation-delay:.24s}.pc:nth-child(5){animation-delay:.32s}
+.pc.rare.up .f{animation:rareglow 1.8s infinite}
+.pc.leg.up .f{animation:legglow 1.6s infinite}
+.mcard.rare{animation:rareglow 1.8s infinite}.mcard.leg{animation:legglow 1.6s infinite}
+.coll span:last-child{animation:chipin .45s cubic-bezier(.2,1.4,.4,1)}
+#tk{display:inline-block}#tk.bump{animation:bump .4s}
+.fl{font-size:20px}
+.modal.open{animation:fadein .25s}
+
+/* появление при прокрутке (классы ставит JS) */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease var(--d,0ms),transform .8s var(--ez) var(--d,0ms)}
+.rv.in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation:none!important;transition:none!important}
+ .rv{opacity:1;transform:none}
+}
+.sitefoot{border-top:1px solid rgba(0,0,0,.1);text-align:center;padding:32px 16px 40px;font-size:12px;color:rgba(0,0,0,.55);line-height:1.7;background:#fff;position:relative}
+.sitefoot b{color:#000;font-weight:600;letter-spacing:-.01em}
+body.epl .pk,body.epl .pc .b{background:linear-gradient(135deg,#c8102e 0 50%,#6cabdd 50% 100%)}
+.pc .f .pcl.L,.mcard .pcl.L{background:#c8102e}.pc .f .pcl.C,.mcard .pcl.C{background:#6cabdd}
+.ixchip.L{border-color:#c8102e}.ixchip.C{border-color:#6cabdd}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+<div id="home">
+  <div class="topbar"><span></span><div class="lang"><button data-lang="az">AZ</button><button data-lang="ru">RU</button><button data-lang="en">EN</button></div></div>
+  <div class="hw">
+    <div class="subtitle"><i class="dot"></i><span data-i18n="h_sub"></span></div>
+    <h1 data-i18n="h_h1"></h1>
+    <div class="btns">
+      <button class="btn solid" id="hTable" data-i18n="btn_table"></button>
+      <button class="btn ghost" id="lgBtn" data-i18n="b_lg"></button>
+      <button class="btn ghost" id="toGame" data-i18n="b_game"></button>
+      <button class="btn ghost" id="toPack" data-i18n="b_pack"></button>
+      <button class="btn ghost" id="toIdx" data-i18n="b_idx"></button>
+      <button class="btn ghost" id="toBest" data-i18n="b_best"></button>
+    </div>
+    <div class="grid" id="clubs"></div>
+  </div>
+<section id="best" class="best">
+  <h2 data-i18n="best_h2"></h2>
+  <p class="coach" data-i18n="best_note"></p>
+  <ol id="bestlist"></ol>
+</section>
+<section id="game" class="game">
+  <h2 data-i18n="g_h2"></h2>
+  <p class="coach" data-i18n="g_hint"></p>
+  <div class="gbar"><span id="gscore"></span><span class="gdots" id="gdots"></span></div>
+  <div class="stage" id="stage">
+    <div class="goal"></div><div class="keeper" id="keeper">🧤</div><div class="ball" id="ball">⚽</div>
+    <div class="gmsg" id="gmsg"></div>
+  </div>
+  <div class="gctl">
+    <button class="btn ghost" id="shootL" data-i18n="g_left"></button>
+    <button class="btn ghost" id="shootR" data-i18n="g_right"></button>
+    <button class="btn solid" id="again" data-i18n="g_again" style="display:none"></button>
+  </div>
+</section>
+<section id="pack" class="pack">
+  <h2 data-i18n="pk_h2"></h2>
+  <p class="coach" data-i18n="pk_hint"></p>
+  <div class="tkbar"><span>🪙 <b id="tk">100</b> <span data-i18n="tk_l"></span></span><span class="clkwrap" id="clkw"><button class="btn solid" id="clk" data-i18n="clk"></button></span></div>
+  <div class="pk-wrap">
+    <button class="pk" id="pk"><small id="pkSmall">Sabah × Qarabağ</small><b data-i18n="pk_open"></b><span style="font-size:42px">📦</span></button>
+    <div class="cards" id="cards"></div>
+    <div class="collh" data-i18n="coll"></div><div class="coll" id="coll"></div>
+  </div>
+</section>
+<section id="idx" class="idx">
+  <h2 data-i18n="ix_h2"></h2>
+  <p class="coach" data-i18n="ix_hint"></p>
+  <div class="ixpitch" id="ixpitch">
+    <div class="ixz" style="top:0" id="zA"></div><div class="ixz" style="top:33.33%" id="zM"></div><div class="ixz" style="top:66.66%" id="zD"></div>
+  </div>
+  <div class="collh" data-i18n="ix_bench" style="margin-top:18px"></div>
+  <div class="ixbench" id="ixbench"></div>
+</section>
+</div>
+<div id="table" style="display:none">
+  <div class="topbar"><button class="tab" id="tBack" data-i18n="back_clubs"></button><div class="lang"><button data-lang="az">AZ</button><button data-lang="ru">RU</button><button data-lang="en">EN</button></div></div>
+  <section class="matches" style="padding-top:96px">
+    <h2 data-i18n="t_h2"></h2>
+    <div class="tw"><table class="tbl"><thead><tr><th>#</th><th class="l" data-i18n="th_club"></th><th data-i18n="th_g"></th><th data-i18n="th_w"></th><th data-i18n="th_d"></th><th data-i18n="th_l"></th><th data-i18n="th_gf"></th><th data-i18n="th_gd"></th><th data-i18n="th_pts"></th></tr></thead><tbody id="tbody"></tbody></table></div>
+    <p class="foot-note" data-i18n="t_note"></p>
+  </section>
+</div>
+<div id="club" style="display:none">
+<div class="page">
+  <nav class="nav" data-a="nav">
+    <div class="nav-left">
+      <div class="logo" id="logo" style="cursor:pointer">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#000"><rect x="3" y="8" width="18" height="5" rx="2.5" transform="rotate(-35 12 12)"/><rect x="3" y="13" width="18" height="5" rx="2.5" transform="rotate(-35 12 12)"/></svg>
+        <span class="brand" id="brand">Sabah</span>
+      </div>
+      <button class="menu" data-open="all">
+        <span class="menu-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        <span>Menu</span>
+      </button>
+      <div class="tags-pill" id="tags"></div>
+    </div>
+    <div class="nav-right">
+      <div class="lang"><button data-lang="az">AZ</button><button data-lang="ru">RU</button><button data-lang="en">EN</button></div>
+      <div class="right-pill">
+        <button class="circle" aria-label="grid"><svg width="12" height="12" viewBox="0 0 12 12" fill="#fff"><circle cx="3" cy="3" r="1.4"/><circle cx="9" cy="3" r="1.4"/><circle cx="3" cy="9" r="1.4"/><circle cx="9" cy="9" r="1.4"/></svg></button>
+        <span class="right-label" data-i18n="season"></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="video-wrap">
+    <div class="video-inner" data-a="video">
+      <video src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260508_215831_c6a8989c-d716-4d8d-8745-e972a2eec711.mp4" autoplay muted playsinline loop></video>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <footer class="footer" data-a="footer">
+    <div class="foot-left">
+      <div class="subtitle" data-a="sub"><i class="dot"></i><span data-i18n="sub"></span></div>
+      <h1 data-a="h1" data-i18n="h1"></h1>
+      <div class="btns" data-a="btns">
+        <button class="btn solid" data-open="next" data-i18n="b_next"></button>
+        <button class="btn ghost" data-open="past" data-i18n="b_res"></button>
+        <button class="btn ghost" id="toSquad" data-i18n="b_squad"></button>
+        <button class="btn ghost" id="cTable" data-i18n="btn_table"></button>
+        <button class="btn ghost" id="cHome" data-i18n="back_clubs"></button>
+      </div>
+    </div>
+    <div class="foot-right" id="chips">
+      
+    </div>
+  </footer>
+</div>
+
+<section id="matches" class="matches">
+  <h2 data-i18n="m_h2"></h2>
+  <div class="tabs">
+    <button class="tab on" data-tab="next" data-i18n="tab_next"></button>
+    <button class="tab" data-tab="past" data-i18n="tab_past"></button>
+    <button class="tab" data-tab="all" data-i18n="tab_all"></button>
+  </div>
+  <ul id="list"></ul>
+  <p class="foot-note" data-i18n="foot"></p>
+</section>
+
+<section id="squad" class="squad">
+  <h2 data-i18n="s_h2"></h2>
+  <p class="coach" data-i18n="coach"></p>
+  <div id="players"></div>
+</section>
+
+<section id="archive" class="arch">
+  <h2 data-i18n="a_h2"></h2>
+  <p data-i18n="a_p"></p>
+  <div id="seasons"></div>
+</section>
+</div>
+
+<footer class="sitefoot" id="sitefoot"><span data-i18n="copy"></span><br><span data-i18n="made"></span></footer>
+
+<div class="modal" id="modal"><div class="mbox" id="mbox"></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/motion@11.18.2/dist/motion.js"></script>
+<script>
+// home=true — Sabah играет дома
+const MATCHES = [
+  {date:'2026-08-19',comp:'comp_ucl_po',home:false,opp:'Hapoel Be\u2019er Sheva',score:[1,2]},
+  {date:'2026-08-25',comp:'comp_ucl_po',home:true,opp:'Hapoel Be\u2019er Sheva',score:[5,2],note:'n_adv'},
+  {date:'2026-08-31',comp:'comp_pl',home:false,opp:'Araz',score:[0,1]},
+  {date:'2026-09-05',comp:'comp_pl',home:true,opp:'Zira',score:[5,0]},
+  {date:'2026-09-10',comp:'comp_ucl',home:false,opp:'Manchester United',score:[4,0]},
+  {date:'2026-09-14',comp:'comp_pl',home:false,opp:'Shafa',score:[0,3]},
+  {date:'2026-09-19',comp:'comp_pl',home:true,opp:'İmişli',score:[3,1]},
+  {date:'2026-10-09',comp:'comp_pl',home:false,opp:'Neftçi',score:null},
+  {date:'2026-10-13',comp:'comp_ucl',home:true,opp:'Slavia Prague',score:null},
+  {date:'2026-10-17',comp:'comp_pl',home:false,opp:'Qabala',score:null},
+  {date:'2026-10-20',comp:'comp_ucl',home:true,opp:'Borussia Dortmund',score:null},
+  {date:'2026-10-25',comp:'comp_pl',home:true,opp:'Qarabağ',score:null},
+  {date:'2026-11-04',comp:'comp_ucl',home:false,opp:'Viking',score:null},
+  {date:'2026-11-25',comp:'comp_ucl',home:true,opp:'Barcelona',score:null},
+  {date:'2026-12-08',comp:'comp_ucl',home:false,opp:'Villarreal',score:null},
+  {date:'2027-01-20',comp:'comp_ucl',home:true,opp:'Napoli',score:null,note:'n_md7'},
+  {date:'2027-01-27',comp:'comp_ucl',home:false,opp:'Arsenal',score:null},
+];
+const S={pl:'comp_pl',cup:'comp_cup',elq:'comp_el_q',cfq:'comp_conf_q',uclq:'comp_ucl_q'};
+[
+['2025-07-10','elq',1,'Celje',[2,3]],['2025-07-17','elq',0,'Celje',[3,3],'n_out56'],
+['2025-07-24','cfq',0,'Petrocub Hîncești',[0,2]],['2025-07-31','cfq',1,'Petrocub Hîncești',[4,1],'n_adv61'],
+['2025-08-07','cfq',0,'Levski Sofia',[1,0]],['2025-08-14','cfq',1,'Levski Sofia',[0,2],'n_out03'],
+['2025-08-24','pl',0,'Shamakhi',[1,2]],['2025-08-31','pl',1,'İmişli',[0,1]],['2025-09-14','pl',0,'Neftçi',[0,0]],
+['2025-09-20','pl',1,'Turan Tovuz',[2,0]],['2025-09-28','pl',1,'Sumgayit',[1,1]],['2025-10-05','pl',0,'Karvan',[0,2]],
+['2025-10-19','pl',1,'Zira',[3,0]],['2025-10-25','pl',0,'Araz',[2,2]],['2025-11-03','pl',1,'Qabala',[1,0]],
+['2025-11-09','pl',0,'Kapaz',[1,3]],['2025-11-23','pl',1,'Shamakhi',[0,0]],['2025-11-29','pl',0,'İmişli',[0,3]],
+['2025-12-03','cup',0,'İmişli',[1,2]],['2025-12-08','pl',1,'Neftçi',[2,0]],['2025-12-13','pl',0,'Turan Tovuz',[1,3]],
+['2025-12-18','pl',1,'Qarabağ',[2,1]],['2025-12-22','pl',0,'Sumgayit',[1,3]],
+['2026-01-25','pl',1,'Karvan',[4,1]],['2026-01-31','pl',0,'Zira',[1,3]],['2026-02-04','cup',1,'Qabala',[0,0]],
+['2026-02-08','pl',1,'Araz',[4,1]],['2026-02-16','pl',0,'Qabala',[0,1]],['2026-02-22','pl',1,'Kapaz',[1,0]],
+['2026-03-01','pl',0,'Qarabağ',[3,3]],['2026-03-05','cup',0,'Qabala',[3,3],'n_pen'],['2026-03-10','pl',1,'Qabala',[7,1]],
+['2026-03-14','pl',0,'İmişli',[0,5]],['2026-03-19','pl',1,'Sumgayit',[3,1]],['2026-04-03','cup',0,'Qarabağ',[2,2]],
+['2026-04-07','pl',0,'Araz',[2,4]],['2026-04-11','pl',1,'Zira',[2,2]],['2026-04-18','pl',0,'Qarabağ',[0,1]],
+['2026-04-22','cup',1,'Qarabağ',[2,1],'n_sf'],['2026-04-27','pl',1,'Karvan',[2,0]],['2026-05-03','pl',0,'Shamakhi',[0,3]],
+['2026-05-08','pl',1,'Kapaz',[0,1]],['2026-05-13','cup',1,'Zira',[2,1],'n_cup'],['2026-05-17','pl',1,'Neftçi',[1,2]],
+['2026-05-22','pl',0,'Turan Tovuz',[1,2]],
+['2026-07-07','uclq',1,'The New Saints',[2,0]],['2026-07-14','uclq',0,'The New Saints',[1,2],'n_adv41'],
+['2026-07-21','uclq',1,'KuPS',[1,0]],['2026-07-28','uclq',0,'KuPS',[0,2],'n_adv30'],
+['2026-08-05','uclq',0,'AGF Aarhus',[2,1]],['2026-08-11','uclq',1,'AGF Aarhus',[4,0],'n_adv52'],
+['2026-08-15','pl',1,'Kapaz',[2,0]],
+['2026-11-04','pl',1,'Shamakhi',0,0,1],['2026-11-19','pl',0,'Sumgayit',0,0,1],['2026-11-26','pl',1,'Araz',0,0,1],
+['2026-11-29','pl',0,'Turan Tovuz',0,0,1],['2026-12-03','pl',0,'Zira',0,0,1],['2026-12-12','pl',1,'Shafa',0,0,1],
+['2026-12-17','pl',1,'Sumgayit',0,'n_resch',1],['2026-12-17','pl',0,'İmişli',0,0,1],
+['2027-01-21','pl',1,'Neftçi',0,0,1],['2027-01-28','pl',1,'Qabala',0,0,1],['2027-02-04','pl',0,'Qarabağ',0,0,1],
+['2027-02-11','pl',1,'Turan Tovuz',0,0,1],['2027-02-18','pl',0,'Shamakhi',0,0,1],['2027-02-26','pl',0,'Kapaz',0,0,1],
+['2027-03-04','pl',0,'Sumgayit',0,0,1],['2027-03-11','pl',0,'Turan Tovuz',0,0,1],['2027-03-17','pl',1,'Kapaz',0,0,1],
+['2027-04-01','pl',0,'Araz',0,0,1],['2027-04-08','pl',1,'Qabala',0,0,1],['2027-04-15','pl',0,'Shafa',0,0,1],
+['2027-04-22','pl',1,'Qarabağ',0,0,1],['2027-04-29','pl',0,'İmişli',0,0,1],['2027-05-06','pl',1,'Neftçi',0,0,1],
+['2027-05-13','pl',0,'Zira',0,0,1],['2027-05-20','pl',1,'Shamakhi',0,0,1]
+].forEach(([d,c,h,o,sc,n,t])=>MATCHES.push({date:d,comp:S[c],home:!!h,opp:o,score:sc||null,note:n||undefined,tent:!!t}));
+MATCHES.sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0);
+const I18N = {
+ ru:{title:'Sabah FK — матчи 2026/27',season:'Сезон 2026/27',sub:'Действующий чемпион Азербайджана',h1:'Каждый матч.<br>Каждый гол.',b_next:'Ближайшие матчи',b_res:'Результаты',b_squad:'Состав',comp_ucl:'Лига чемпионов',comp_ucl_po:'Лига чемпионов · плей-офф',comp_pl:'Premyer Liqa',h_sub:'Азербайджанская Премьер-лига · сезон 2026/27',h_h1:'Выберите<br>клуб.',btn_table:'Таблица',back_clubs:'← Клубы',t_h2:'Турнирная таблица',th_club:'Клуб',th_g:'И',th_w:'В',th_d:'Н',th_l:'П',th_gf:'Мячи',th_gd:'РМ',th_pts:'О',t_note:'Данные terrikon.com на 4 октября 2026, после 6 туров; у части клубов сыграно 5 матчей (есть перенесённые игры).',no_squad:'Состав этого клуба пока не загружен.',sub_o:'Азербайджанская Премьер-лига',foot_o:'Только матчи Premyer Liqa 2026/27, найденные в открытых источниках; полный календарь клуба пока не загружен.',comp_el_q:'Лига Европы · квалификация',comp_conf_q:'Лига конференций · квалификация',comp_ucl_q:'Лига чемпионов · квалификация',comp_cup:'Кубок Азербайджана',n_out56:'вылетел, 5:6 по сумме',n_adv61:'прошёл дальше, 6:1 по сумме',n_out03:'вылетел, 0:3 по сумме',n_adv41:'прошёл дальше, 4:1 по сумме',n_adv30:'прошёл дальше, 3:0 по сумме',n_adv52:'прошёл дальше, 5:2 по сумме',n_pen:'прошёл дальше по пенальти (4:2)',n_sf:'в финал, 4:3 по сумме',n_cup:'обладатель Кубка',n_resch:'перенесённый матч',tent:'дата предварительная',m_h2:'Матчи',tab_next:'Предстоящие',tab_past:'Прошедшие',tab_all:'Все',foot:'Данные из открытых источников на 4 октября 2026; список может быть неполным — сверяйтесь с официальным сайтом клуба и лиги. Матчи с июля 2025; товарищеские не включены; даты Premyer Liqa после октября 2026 предварительные.',s_h2:'Состав',coach:'Главный тренер: Valdas Dambrauskas. Рыночная стоимость — оценка AiScore на октябрь 2026; «—» — оценки нет.',n_adv:'прошёл дальше, 6:4 по сумме',home:'дома',away:'в гостях',tix_btn:'Где купить билеты',tix_away:'Выездной матч',tix_away_n:'Билеты продаёт принимающий клуб ({opp}) — следите за его официальными каналами.',tix_resale:'перепродажа, от ~{price}, цены выше номинала',tix_agg:'агрегатор предложений',tix_it:'билетный сервис Азербайджана — проверьте, открыта ли продажа на этот матч',tix_warn:'Перепродажа может стоить дороже номинала. Надёжнее всего — официальные каналы клуба.',p_gk:'Вратари',p_def:'Защитники',p_mid:'Полузащитники',p_fw:'Нападающие',nodata:'Данные не найдены',BRA:'Бразилия',AZE:'Азербайджан',KAZ:'Казахстан',GLP:'Гваделупа',RSA:'ЮАР',POL:'Польша',ALG:'Алжир',UZB:'Узбекистан',CRO:'Хорватия',FRA:'Франция',POR:'Португалия',NGA:'Нигерия',JAM:'Ямайка',GER:'Германия',SRB:'Сербия',MAR:'Марокко',CUW:'Кюрасао',GAB:'Габон',tix_resale0:'перепродажа, цены выше номинала',n_md7:'дата 19/20 января уточняется',a_h2:'Архив сезонов',a_p:'Полный список матчей с 2023 года в одну страницу я собрать не смог — ниже сводка по сезонам и ссылки на полные календари.',a_link:'Полный список матчей ↗',a_2324:'2023/24 — сводку собрать не удалось, см. полный список по ссылке.',a_2425:'Premyer Liqa: 5-е место (36 матчей: 10 побед, 18 ничьих, 8 поражений, мячи 50–46). Кубок Азербайджана: победитель (финал 31 мая 2025). Лига конференций: дошёл до 3-го квалификационного раунда (St Patrick\u2019s Athletic).',a_2526:'Чемпион Азербайджана (на март 2026 лидировал: 17 побед, 5 ничьих, 1 поражение за 23 тура, 56 очков — по данным FotMob).',a_2627:'Лига чемпионов (лига-фаза) и Premyer Liqa — смотрите список матчей выше.'},
+ az:{title:'Sabah FK — 2026/27 matçları',season:'2026/27 mövsümü',sub:'Azərbaycanın hazırkı çempionu',h1:'Hər matç.<br>Hər qol.',b_next:'Yaxın matçlar',b_res:'Nəticələr',b_squad:'Heyət',comp_ucl:'Çempionlar Liqası',comp_ucl_po:'Çempionlar Liqası · pley-off',comp_pl:'Premyer Liqa',h_sub:'Azərbaycan Premyer Liqası · 2026/27 mövsümü',h_h1:'Klubu<br>seçin.',btn_table:'Cədvəl',back_clubs:'← Klublar',t_h2:'Turnir cədvəli',th_club:'Klub',th_g:'O',th_w:'Q',th_d:'H',th_l:'M',th_gf:'Qol',th_gd:'Fərq',th_pts:'X',t_note:'terrikon.com məlumatı, 4 oktyabr 2026, 6 turdan sonra; bəzi klublar 5 matç keçirib (təxirə salınmış oyunlar var).',no_squad:'Bu klubun heyəti hələ yüklənməyib.',sub_o:'Azərbaycan Premyer Liqası',foot_o:'Yalnız açıq mənbələrdə tapılan Premyer Liqa 2026/27 matçları; klubun tam təqvimi hələ yüklənməyib.',comp_el_q:'Avropa Liqası · təsnifat',comp_conf_q:'Konfrans Liqası · təsnifat',comp_ucl_q:'Çempionlar Liqası · təsnifat',comp_cup:'Azərbaycan Kuboku',n_out56:'ümumi hesabla 5:6 məğlub oldu',n_adv61:'ümumi hesabla 6:1 irəli keçdi',n_out03:'ümumi hesabla 0:3 məğlub oldu',n_adv41:'ümumi hesabla 4:1 irəli keçdi',n_adv30:'ümumi hesabla 3:0 irəli keçdi',n_adv52:'ümumi hesabla 5:2 irəli keçdi',n_pen:'penaltilərlə irəli keçdi (4:2)',n_sf:'finala, ümumi hesabla 4:3',n_cup:'Kubok qalibi',n_resch:'təxirə salınmış oyun',tent:'tarix ilkindir',m_h2:'Matçlar',tab_next:'Gələcək',tab_past:'Keçmiş',tab_all:'Hamısı',foot:'Açıq mənbələrdən 4 oktyabr 2026-cı il tarixinə məlumat; siyahı tam olmaya bilər — klubun və liqanın rəsmi saytına baxın. Matçlar 2025-ci ilin iyulundan; yoldaşlıq oyunları daxil deyil; 2026-cı ilin oktyabrından sonrakı Premyer Liqa tarixləri ilkindir.',s_h2:'Heyət',coach:'Baş məşqçi: Valdas Dambrauskas. Bazar dəyəri — AiScore-un 2026-cı ilin oktyabr qiymətləndirməsi; «—» — qiymət yoxdur.',n_adv:'ümumi hesabla 6:4 irəli keçdi',home:'evdə',away:'səfərdə',tix_btn:'Biletləri haradan almaq olar',tix_away:'Səfər matçı',tix_away_n:'Biletləri ev sahibi klub ({opp}) satır — onun rəsmi kanallarını izləyin.',tix_resale:'yenidən satış, ~{price}-dan, qiymətlər nominaldan yüksəkdir',tix_agg:'təkliflər aqreqatoru',tix_it:'Azərbaycanın bilet xidməti — bu matç üçün satışın açıq olduğunu yoxlayın',tix_warn:'Yenidən satış nominal qiymətdən bahalı ola bilər. Ən etibarlısı klubun rəsmi kanallarıdır.',p_gk:'Qapıçılar',p_def:'Müdafiəçilər',p_mid:'Yarımmüdafiəçilər',p_fw:'Hücumçular',nodata:'Məlumat tapılmadı',BRA:'Braziliya',AZE:'Azərbaycan',KAZ:'Qazaxıstan',GLP:'Qvadelupa',RSA:'CƏR',POL:'Polşa',ALG:'Əlcəzair',UZB:'Özbəkistan',CRO:'Xorvatiya',FRA:'Fransa',POR:'Portuqaliya',NGA:'Nigeriya',JAM:'Yamayka',GER:'Almaniya',SRB:'Serbiya',MAR:'Mərakeş',CUW:'Kürasao',GAB:'Qabon',tix_resale0:'yenidən satış, qiymətlər nominaldan yüksəkdir',n_md7:'tarix (19/20 yanvar) dəqiqləşdirilir',a_h2:'Mövsümlər arxivi',a_p:'2023-cü ildən bütün matçların tam siyahısını bir səhifədə toplaya bilmədim — aşağıda mövsümlər üzrə qısa icmal və tam təqvimlərə keçidlər var.',a_link:'Matçların tam siyahısı ↗',a_2324:'2023/24 — icmal toplamaq mümkün olmadı, tam siyahıya keçiddən baxın.',a_2425:'Premyer Liqa: 5-ci yer (36 matç: 10 qələbə, 18 heç-heçə, 8 məğlubiyyət, qol fərqi 50–46). Azərbaycan Kuboku: qalib (final 31 may 2025). Konfrans Liqası: 3-cü təsnifat mərhələsinədək (St Patrick\u2019s Athletic).',a_2526:'Azərbaycan çempionu (2026-cı ilin mart ayında liderdi: 23 turda 17 qələbə, 5 heç-heçə, 1 məğlubiyyət, 56 xal — FotMob məlumatı).',a_2627:'Çempionlar Liqası (liqa mərhələsi) və Premyer Liqa — yuxarıdakı matç siyahısına baxın.'},
+ en:{title:'Sabah FK — 2026/27 matches',season:'Season 2026/27',sub:'Reigning champions of Azerbaijan',h1:'Every match.<br>Every goal.',b_next:'Upcoming matches',b_res:'Results',b_squad:'Squad',comp_ucl:'Champions League',comp_ucl_po:'Champions League · play-off',comp_pl:'Premyer Liqa',h_sub:'Azerbaijan Premier League · 2026/27 season',h_h1:'Choose<br>a club.',btn_table:'Table',back_clubs:'← Clubs',t_h2:'Standings',th_club:'Club',th_g:'P',th_w:'W',th_d:'D',th_l:'L',th_gf:'Goals',th_gd:'GD',th_pts:'Pts',t_note:'Data from terrikon.com as of 4 October 2026, after 6 rounds; some clubs have played 5 (postponed games).',no_squad:'This club has no squad loaded yet.',sub_o:'Azerbaijan Premier League',foot_o:'Only Premier League 2026/27 matches found in public sources; the full fixture list for this club is not loaded yet.',comp_el_q:'Europa League · qualifying',comp_conf_q:'Conference League · qualifying',comp_ucl_q:'Champions League · qualifying',comp_cup:'Azerbaijan Cup',n_out56:'out 5–6 on aggregate',n_adv61:'advanced 6–1 on aggregate',n_out03:'out 0–3 on aggregate',n_adv41:'advanced 4–1 on aggregate',n_adv30:'advanced 3–0 on aggregate',n_adv52:'advanced 5–2 on aggregate',n_pen:'advanced on penalties (4–2)',n_sf:'to the final, 4–3 on aggregate',n_cup:'Cup winners',n_resch:'rescheduled match',tent:'date provisional',m_h2:'Matches',tab_next:'Upcoming',tab_past:'Past',tab_all:'All',foot:'Data from public sources as of 4 October 2026; the list may be incomplete — check the club\u2019s and league\u2019s official sites. Matches from July 2025; friendlies not included; Premyer Liqa dates after October 2026 are provisional.',s_h2:'Squad',coach:'Head coach: Valdas Dambrauskas. Market value is AiScore\u2019s estimate as of October 2026; “—” means no estimate.',n_adv:'advanced 6\u20134 on aggregate',home:'home',away:'away',tix_btn:'Where to buy tickets',tix_away:'Away match',tix_away_n:'Tickets are sold by the host club ({opp}) — follow its official channels.',tix_resale:'resale, from ~{price}, above face value',tix_agg:'offers aggregator',tix_it:'Azerbaijani ticketing service — check whether sales are open for this match',tix_warn:'Resale may cost more than face value. Official club channels are the safest option.',p_gk:'Goalkeepers',p_def:'Defenders',p_mid:'Midfielders',p_fw:'Forwards',nodata:'No data found',BRA:'Brazil',AZE:'Azerbaijan',KAZ:'Kazakhstan',GLP:'Guadeloupe',RSA:'South Africa',POL:'Poland',ALG:'Algeria',UZB:'Uzbekistan',CRO:'Croatia',FRA:'France',POR:'Portugal',NGA:'Nigeria',JAM:'Jamaica',GER:'Germany',SRB:'Serbia',MAR:'Morocco',CUW:'Curaçao',GAB:'Gabon',tix_resale0:'resale, above face value',n_md7:'date (19/20 Jan) to be confirmed',a_h2:'Season archive',a_p:'I could not compile every match since 2023 on one page — below are season summaries and links to full fixture lists.',a_link:'Full match list ↗',a_2324:'2023/24 — no summary could be compiled; see the full list via the link.',a_2425:'Premyer Liqa: 5th (36 games: 10 W, 18 D, 8 L, goals 50\u201346). Azerbaijan Cup: winners (final 31 May 2025). Conference League: reached the third qualifying round (St Patrick\u2019s Athletic).',a_2526:'Azerbaijani champions (as of March 2026 they led: 17 W, 5 D, 1 L after 23 rounds, 56 points — per FotMob).',a_2627:'Champions League (league phase) and Premyer Liqa — see the match list above.'}
+};
+const LOC = {ru:'ru-RU', az:'az-AZ', en:'en-GB'};
+let LANG = 'ru';
+let LG = 'az'; try { if (localStorage.getItem('league') === 'epl') LG = 'epl'; } catch (e) {}
+try { const sv = localStorage.getItem('lang'); if (I18N[sv]) LANG = sv; } catch (e) {}
+const t = (k, v) => { if (LG === 'epl' && I18N[LANG][k + '_e'] !== undefined) k += '_e'; let x = (I18N[LANG][k] ?? k); if (v) for (const q in v) x = x.replace('{' + q + '}', v[q]); return x; };
+
+const MV = {1:'€125K',92:'€600K',3:'€1.0M',4:'€600K',5:'€500K',17:'€200K',27:'€2.5M',33:'€300K',80:'€800K',6:'€450K',7:'€1.2M',10:'€1.0M',13:'€2.0M',16:'€300K',22:'€350K',37:'€1.5M',88:'€175K',8:'€600K',9:'€800K',11:'€1.0M',20:'€800K',21:'€750K',34:'€600K',99:'€350K'};
+const SQUAD = [
+  ['p_gk', [
+    [1, 'Amin Ramazanov', 'AZE 2003'],
+    [92, 'Stas Pokatilov', 'KAZ 1992'],
+    [94, 'Ravan Mirzammadov', 'AZE 2006']
+  ]],
+  ['p_def', [
+    [3, 'Steve Solvet', 'GLP 1996'],
+    [4, 'Aden McCarthy', 'RSA 2004'],
+    [5, 'Rahman Dashdamirov', 'AZE 1999'],
+    [17, 'Tellur Mutallimov', 'AZE 1995'],
+    [27, 'Tymoteusz Puchacz', 'POL 1999'],
+    [33, 'Erivaldo Almeida', 'BRA 2000'],
+    [35, 'Chafet Bulus', 'NGA 2007'],
+    [80, 'Akim Zedadka', 'ALG 1995']
+  ]],
+  ['p_mid', [
+    [6, 'Abdullakh Khaibulaev', 'AZE 2001'],
+    [7, 'Umarali Rakhmonaliev', 'UZB 2003'],
+    [10, 'Aleksey Isayev', 'AZE 1995'],
+    [13, 'Ivan Lepinjica', 'CRO 1999'],
+    [16, 'Rauf Rustamli', 'AZE 2003'],
+    [22, 'Zinédine Ould Khaled', 'FRA 2000'],
+    [37, 'Du Queiroz', 'BRA 2000'],
+    [88, 'Rodrigo Fernandes', 'POR 2001'],
+    [89, 'Jafar Mukhtarov', 'AZE 2005'],
+    [95, 'Shahin Ibrahimov', 'AZE 2008']
+  ]],
+  ['p_fw', [
+    [8, 'Christian Nwachukwu', 'NGA 2005'],
+    [9, 'Khayal Aliyev', 'AZE 2004'],
+    [11, 'Kahim Parris', 'JAM 2000'],
+    [20, 'Joy-Lance Mickels', 'GER 1994'],
+    [21, 'Veljko Simić', 'SRB 1995'],
+    [23, 'Younes Lachaab', 'MAR 2005'],
+    [34, 'Xander Severina', 'CUW 2001'],
+    [99, 'Patrick Orphe Mbina', 'GAB 2000']
+  ]]
+];
+
+// Билеты: ссылки — перепродажа/агрегаторы (цены выше номинала). Официальную продажу уточняйте у клуба.
+function tixFor(m) {
+  if (LG === 'epl') { const y = []; if (!m.home) y.push({n:t('tix_away'), note:t('tix_away_n', {opp:m.opp})}); else y.push({n:t('tix_epl'), note:t('tix_epl_n')}); return y; }
+  const x = [], HT = 'https://www.hellotickets.com/en-au/sabah-fk-tickets/p-32305';
+  if (!m.home) x.push({n:t('tix_away'), note:t('tix_away_n', {opp:m.opp})});
+  if (m.opp === 'Slavia Prague') {
+    x.push({n:'HelloTickets', url:HT, note:t('tix_resale', {price:'AU$40'})});
+    x.push({n:'Ticket-Compare', url:'https://ticket-compare.com/fixtures/sabah-vs-slavia-prague-tickets/', note:t('tix_agg')});
+  }
+  if (m.opp === 'Borussia Dortmund') x.push({n:'HelloTickets', url:HT, note:t('tix_resale', {price:'AU$103'})});
+  if (m.home && (m.opp === 'Barcelona' || m.opp === 'Napoli')) x.push({n:'HelloTickets', url:HT, note:t('tix_resale0')});
+  if (m.home) x.push({n:'iTicket.az', url:'https://iticket.az', note:t('tix_it')});
+  return x;
+}
+let TABLE = [['Neftçi',6,5,0,1,18,5,15],['Sabah',5,5,0,0,14,1,15],['Qarabağ',5,4,1,0,9,4,13],['Turan Tovuz',6,3,2,1,6,4,11],['Zira',6,3,1,2,7,8,10],['Shamakhi',6,2,3,1,8,6,9],['Kapaz',5,2,1,2,4,7,7],['İmişli',6,1,1,4,6,11,4],['Qabala',6,1,1,4,2,7,4],['Shafa',6,1,0,5,2,11,3],['Sumgayit',5,0,2,3,4,8,2],['Araz',6,0,2,4,5,13,2]];
+let L = [['2026-08-15','Sabah','Kapaz',[2,0]],['2026-08-31','Araz','Sabah',[0,1]],['2026-09-05','Sabah','Zira',[5,0]],['2026-09-12','Sumgayit','Shamakhi',[1,1]],['2026-09-13','Araz','Turan Tovuz',[2,2]],['2026-09-13','Zira','Qarabağ',[1,1]],['2026-09-14','Shafa','Sabah',[0,3]],['2026-09-18','Qabala','Neftçi',[0,3]],['2026-09-18','Qarabağ','Shafa',[1,0]],['2026-09-19','Turan Tovuz','Zira',[1,0]],['2026-09-19','Sabah','İmişli',[3,1]],['2026-09-20','Shamakhi','Araz',[2,1]],['2026-09-20','Kapaz','Sumgayit',[1,1]],
+['2026-10-09','Araz','Kapaz'],['2026-10-09','Neftçi','Sabah'],['2026-10-10','Zira','Shamakhi'],['2026-10-10','Sumgayit','Qabala'],['2026-10-11','İmişli','Qarabağ'],['2026-10-11','Shafa','Turan Tovuz'],['2026-10-16','Kapaz','Zira',0,1],['2026-10-17','Qabala','Sabah',0,1],['2026-10-16','Turan Tovuz','İmişli',0,1],['2026-10-16','Sumgayit','Araz',0,1]];
+let CUR = 'Sabah';
+const CN = () => CUR;
+const MS = () => CUR === 'Sabah' ? MATCHES : L.filter(x => x[1] === CUR || x[2] === CUR).map(x => ({date:x[0], comp:LG === 'epl' ? 'comp_epl' : 'comp_pl', note:x[5], home:x[1] === CUR, opp:x[1] === CUR ? x[2] : x[1], score:x[3] || null, tent:!!x[4]}));
+const ease = [0.16, 1, 0.3, 1];
+const fmt = d => new Date(d + 'T12:00:00').toLocaleDateString(LOC[LANG], {day:'numeric', month:'short', ...(d.slice(0,4) !== '2026' ? {year:'numeric'} : {})});
+const $ = s => document.querySelector(s);
+const hasMotion = !!(window.Motion && Motion.animate);
+
+function row(m) {
+  const p = m.score, w = p && (m.home ? p[0] > p[1] : p[1] > p[0]);
+  const cls = (!p && m.done) ? 'draw' : !p ? 'next' : p[0] === p[1] ? 'draw' : w ? 'win' : 'loss';
+  const h = m.home ? CN() : m.opp, a = m.home ? m.opp : CN();
+  const li = document.createElement('li');
+  li.className = 'row';
+  li.innerHTML = `<span class="date">${fmt(m.date)}</span><span class="comp">${t(m.comp)}</span>
+    <span class="teams"><b class="${m.home ? 'us' : ''}">${h}</b><span class="score ${cls}">${p ? p[0] + ' – ' + p[1] : m.done ? '—' : 'vs'}</span><b class="${m.home ? '' : 'us'}">${a}</b></span>
+    <span class="note">${m.note ? t(m.note) : t(m.home ? 'home' : 'away')}${m.tent ? ' · ' + t('tent') : ''}</span>`;
+  if (!p && !m.done) {
+    const b = document.createElement('button'); b.className = 'tixbtn'; b.textContent = t('tix_btn');
+    const box = document.createElement('div'); box.className = 'tix';
+    box.innerHTML = tixFor(m).map(x => `<div>${x.url ? `<a href="${x.url}" target="_blank" rel="noopener">${x.n} ↗</a>` : `<b>${x.n}</b>`}<small>${x.note}</small></div>`).join('') + `<small>${t('tix_warn')}</small>`;
+    b.onclick = () => { const o = box.classList.toggle('open'); if (o && hasMotion) Motion.animate(box, {opacity:[0,1], y:[-6,0]}, {duration:.4, ease}); };
+    li.append(b, box);
+  }
+  return li;
+}
+let curTab = 'next';
+function render(tab) {
+  curTab = tab;
+  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
+  const all = MS(), list = tab === 'next' ? all.filter(m => !m.score && !m.done) : tab === 'past' ? all.filter(m => m.score || m.done).reverse() : all;
+  const ul = $('#list'); ul.innerHTML = '';
+  if (!list.length) ul.innerHTML = '<li class="row"><span>' + t('nodata') + '</span></li>';
+  list.forEach((m, i) => {
+    const li = row(m); ul.appendChild(li);
+    if (hasMotion) Motion.animate(li, {opacity:[0,1], y:[12,0]}, {duration:.5, delay:i*.04, ease});
+  });
+}
+document.querySelectorAll('.tab').forEach(b => b.onclick = () => render(b.dataset.tab));
+document.querySelectorAll('[data-open]').forEach(b => b.onclick = () => {
+  render(b.dataset.open);
+  $('#matches').scrollIntoView({behavior:'smooth'});
+});
+$('#toSquad').onclick = () => $('#squad').scrollIntoView({behavior:'smooth'});
+function renderSquad() {
+  const SQ = LG === 'az' ? (CUR === 'Sabah' ? SQUAD : null) : EPL_SQUAD[CUR];
+  if (!SQ) { $('#players').innerHTML = '<p class="coach">' + t('no_squad') + '</p>'; return; }
+  $('#players').innerHTML = SQ.map(([k, ps]) => `<div class="pos">${t(k)}</div><div class="grid">${ps.map(([n, nm, meta]) => {
+    const [c, y] = meta ? meta.split(' ') : [];
+    return `<div class="pl"><span class="n">${n ?? '·'}</span><span class="nm">${I18N.ru[nm] ? t(nm) : nm}</span><span class="meta">${c ? t(c) + (y ? ' · ' + y : '') : '&nbsp;'}</span><span class="mv">${LG === 'az' ? (MV[n] || '—') : '&nbsp;'}</span></div>`;
+  }).join('')}</div>`).join('');
+}
+const SEASONS = [
+  ['2026/27','a_2627','https://www.aiscore.com/team-sabah-fc/8lk2di5514a3736'],
+  ['2025/26','a_2526','https://en.wikipedia.org/wiki/2025%E2%80%9326_Sabah_FC_season'],
+  ['2024/25','a_2425','https://en.wikipedia.org/wiki/2024%E2%80%9325_Sabah_FC_season'],
+  ['2023/24','a_2324','https://en.wikipedia.org/wiki/2023%E2%80%9324_Sabah_FC_season'],
+];
+function renderSeasons() {
+  $('#seasons').innerHTML = SEASONS.map(([y, k, u]) => `<div class="card"><b>${y}</b><span>${t(k)}</span><a href="${u}" target="_blank" rel="noopener">${t('a_link')}</a></div>`).join('');
+}
+const I18N_G = {
+ ru:{title:'Sabah FK — матчи 2026/27',season:'Сезон 2026/27',sub:'Действующий чемпион Азербайджана',h1:'Каждый матч.<br>Каждый гол.',b_next:'Ближайшие матчи',b_res:'Результаты',b_squad:'Состав',b_idx:'Indeks',z_att:'Нападение',z_mid:'Полузащита',z_def:'Защита',ix_h2:'Индекс — твоя команда',ix_hint:'Купленные игроки попадают в запас. Перетаскивай их на поле: чем выше поставишь, тем ближе к нападению. Можно двигать игроков по полю и возвращать в запас.',ix_bench:'Запас',ix_empty:'Пока пусто — купи карточки в Pack',tk_l:'токенов',clk:'Клик +5 🪙',coll:'Моя коллекция',coll_e:'Пока пусто — купи карточку',m_buy:'Купить',m_own:'В коллекции ✓',m_nf:'Не хватает токенов — кликай!',m_pr:'Цена',m_cl:'Закрыть',b_pack:'Pack',pk_h2:'Паки игроков',pk_hint:'Нажми на пак — он приблизится и откроется с фанфарами: 5 карточек игроков Sabah и Qarabağ. Рейтинг — оценочный (по рыночной стоимости, не официальный EA/FIFA); редкость зависит от него. Список по открытым источникам, составы могли измениться. Нажми на открытую карточку, чтобы приблизить и купить её: цена зависит от рейтинга. Токены зарабатываются кликером (+5 за клик), на старте у тебя 100.',pk_ovr:'РЕЙТИНГ',pk_open:'Открыть пак',pk_again:'Открыть ещё пак',r_c:'Обычный',r_r:'Редкий',r_l:'Легендарный',b_game:'Игра',g_h2:'Пенальти',g_hint:'Левая кнопка мыши — удар влево, правая — вправо. 5 ударов, для победы нужно забить 3. Вратарь прыгает наугад.',g_left:'← Бить влево',g_right:'Бить вправо →',g_again:'Играть снова',g_sc:'Голы',g_rd:'Удар',g_goal:'ГОЛ!',g_save:'Вратарь отбил!',g_win:'Победа! 🏆',g_lose:'Не повезло…',b_best:'Best',best_h2:'Топ-10 футболистов Азербайджана',best_note:'Рейтинг по рыночной стоимости игроков Premyer Liqa (по данным Azernews, 2024). Данные могут быть устаревшими — состав клубов и оценки менялись.',best_u:'млн €',comp_ucl:'Лига чемпионов',comp_ucl_po:'Лига чемпионов · плей-офф',comp_pl:'Premyer Liqa',m_h2:'Матчи Sabah FK',tab_next:'Предстоящие',tab_past:'Прошедшие',tab_all:'Все',foot:'Данные из открытых источников на 4 октября 2026; список может быть неполным — сверяйтесь с официальным сайтом клуба и лиги.',s_h2:'Состав Sabah FK',coach:'Главный тренер: Valdas Dambrauskas (по данным FotMob). Список неполный — подтверждены только игроки, найденные в открытых источниках (ESPN).',n_adv:'прошёл дальше, 4:1 по сумме',home:'дома',away:'в гостях',tix_btn:'Где купить билеты',tix_away:'Выездной матч',tix_away_n:'Билеты продаёт принимающий клуб ({opp}) — следите за его официальными каналами.',tix_resale:'перепродажа, от ~{price}, цены выше номинала',tix_agg:'агрегатор предложений',tix_it:'билетный сервис Азербайджана — проверьте, открыта ли продажа на этот матч',tix_warn:'Перепродажа может стоить дороже номинала. Надёжнее всего — официальные каналы клуба.',p_gk:'Вратари',p_def:'Защитники',p_mid:'Полузащитники',p_fw:'Нападающие',nodata:'Данные не найдены',BRA:'Бразилия',AZE:'Азербайджан'},
+ az:{title:'Sabah FK — 2026/27 matçları',season:'2026/27 mövsümü',sub:'Azərbaycanın hazırkı çempionu',h1:'Hər matç.<br>Hər qol.',b_next:'Yaxın matçlar',b_res:'Nəticələr',b_squad:'Heyət',b_idx:'Indeks',z_att:'Hücum',z_mid:'Yarımmüdafiə',z_def:'Müdafiə',ix_h2:'Indeks — sənin komandan',ix_hint:'Alınan oyunçular ehtiyata düşür. Onları meydançaya sürüşdür: nə qədər yuxarı qoysan, hücuma o qədər yaxındır. Oyunçuları meydançada hərəkət etdirmək və ehtiyata qaytarmaq olar.',ix_bench:'Ehtiyat',ix_empty:'Hələ boşdur — Pack-də kart al',tk_l:'token',clk:'Klik +5 🪙',coll:'Kolleksiyam',coll_e:'Hələ boşdur — kart al',m_buy:'Al',m_own:'Kolleksiyada ✓',m_nf:'Token çatmır — klik et!',m_pr:'Qiymət',m_cl:'Bağla',b_pack:'Pack',pk_h2:'Oyunçu paketləri',pk_hint:'Pakete toxun — yaxınlaşıb fanfarla açılacaq: Sabah və Qarabağ oyunçularının 5 kartı. Reytinq təxminidir (bazar dəyərinə görə, rəsmi EA/FIFA deyil); nadirlik ondan asılıdır. Siyahı açıq mənbələrə əsaslanır, heyətlər dəyişmiş ola bilər. Açıq karta toxun — yaxınlaşıb onu ala bilərsən: qiymət reytinqdən asılıdır. Tokenləri klikerlə qazan (hər klik +5), başlanğıcda 100 tokenin var.',pk_ovr:'REYTİNQ',pk_open:'Paketi aç',pk_again:'Yeni paket aç',r_c:'Adi',r_r:'Nadir',r_l:'Əfsanəvi',b_game:'Oyun',g_h2:'Penalti',g_hint:'Sol siçan düyməsi — sola, sağ düymə — sağa vurur. 5 zərbə, qalib olmaq üçün 3 qol lazımdır. Qapıçı təsadüfi tullanır.',g_left:'← Sola vur',g_right:'Sağa vur →',g_again:'Yenidən oyna',g_sc:'Qollar',g_rd:'Zərbə',g_goal:'QOL!',g_save:'Qapıçı qurtardı!',g_win:'Qələbə! 🏆',g_lose:'Uğursuz oldu…',b_best:'Best',best_h2:'Azərbaycanın ən yaxşı 10 futbolçusu',best_note:'Premyer Liqa oyunçularının bazar dəyərinə görə reytinq (Azernews, 2024). Məlumat köhnəlmiş ola bilər — klub heyətləri və qiymətlər dəyişib.',best_u:'mln €',comp_ucl:'Çempionlar Liqası',comp_ucl_po:'Çempionlar Liqası · pley-off',comp_pl:'Premyer Liqa',m_h2:'Sabah FK matçları',tab_next:'Gələcək',tab_past:'Keçmiş',tab_all:'Hamısı',foot:'Açıq mənbələrdən 4 oktyabr 2026-cı il tarixinə məlumat; siyahı tam olmaya bilər — klubun və liqanın rəsmi saytına baxın.',s_h2:'Sabah FK heyəti',coach:'Baş məşqçi: Valdas Dambrauskas (FotMob məlumatına görə). Siyahı tam deyil — yalnız açıq mənbələrdə (ESPN) tapılan oyunçular təsdiqlənib.',n_adv:'ümumi hesabla 4:1 irəli keçdi',home:'evdə',away:'səfərdə',tix_btn:'Biletləri haradan almaq olar',tix_away:'Səfər matçı',tix_away_n:'Biletləri ev sahibi klub ({opp}) satır — onun rəsmi kanallarını izləyin.',tix_resale:'yenidən satış, ~{price}-dan, qiymətlər nominaldan yüksəkdir',tix_agg:'təkliflər aqreqatoru',tix_it:'Azərbaycanın bilet xidməti — bu matç üçün satışın açıq olduğunu yoxlayın',tix_warn:'Yenidən satış nominal qiymətdən bahalı ola bilər. Ən etibarlısı klubun rəsmi kanallarıdır.',p_gk:'Qapıçılar',p_def:'Müdafiəçilər',p_mid:'Yarımmüdafiəçilər',p_fw:'Hücumçular',nodata:'Məlumat tapılmadı',BRA:'Braziliya',AZE:'Azərbaycan'},
+ en:{title:'Sabah FK — 2026/27 matches',season:'Season 2026/27',sub:'Reigning champions of Azerbaijan',h1:'Every match.<br>Every goal.',b_next:'Upcoming matches',b_res:'Results',b_squad:'Squad',b_idx:'Indeks',z_att:'Attack',z_mid:'Midfield',z_def:'Defence',ix_h2:'Index — your team',ix_hint:'Bought players go to the bench. Drag them onto the pitch: the higher you place them, the closer to attack. You can move players around or send them back to the bench.',ix_bench:'Bench',ix_empty:'Empty so far — buy cards in Pack',tk_l:'tokens',clk:'Click +5 🪙',coll:'My collection',coll_e:'Empty so far — buy a card',m_buy:'Buy',m_own:'In collection ✓',m_nf:'Not enough tokens — keep clicking!',m_pr:'Price',m_cl:'Close',b_pack:'Pack',pk_h2:'Player packs',pk_hint:'Tap the pack — it zooms in and opens with a fanfare: 5 cards of Sabah and Qarabağ players. Ratings are estimates (based on market value, not official EA/FIFA); rarity follows them. The list comes from public sources and squads may have changed. Tap an opened card to zoom in and buy it: the price depends on its rating. Earn tokens with the clicker (+5 per click); you start with 100.',pk_ovr:'OVR',pk_open:'Open pack',pk_again:'Open another pack',r_c:'Common',r_r:'Rare',r_l:'Legendary',b_game:'Game',g_h2:'Penalty shootout',g_hint:'Left mouse button shoots left, right button shoots right. 5 kicks, score 3 to win. The keeper dives at random.',g_left:'← Shoot left',g_right:'Shoot right →',g_again:'Play again',g_sc:'Goals',g_rd:'Kick',g_goal:'GOAL!',g_save:'Saved!',g_win:'You win! 🏆',g_lose:'Unlucky…',b_best:'Best',best_h2:'Top 10 footballers in Azerbaijan',best_note:'Ranked by market value of Premyer Liqa players (per Azernews, 2024). The data may be outdated — squads and valuations have changed.',best_u:'M €',comp_ucl:'Champions League',comp_ucl_po:'Champions League · play-off',comp_pl:'Premyer Liqa',m_h2:'Sabah FK matches',tab_next:'Upcoming',tab_past:'Past',tab_all:'All',foot:'Data from public sources as of 4 October 2026; the list may be incomplete — check the club\u2019s and league\u2019s official sites.',s_h2:'Sabah FK squad',coach:'Head coach: Valdas Dambrauskas (per FotMob). The list is incomplete — only players found in public sources (ESPN) are confirmed.',n_adv:'advanced 4\u20131 on aggregate',home:'home',away:'away',tix_btn:'Where to buy tickets',tix_away:'Away match',tix_away_n:'Tickets are sold by the host club ({opp}) — follow its official channels.',tix_resale:'resale, from ~{price}, above face value',tix_agg:'offers aggregator',tix_it:'Azerbaijani ticketing service — check whether sales are open for this match',tix_warn:'Resale may cost more than face value. Official club channels are the safest option.',p_gk:'Goalkeepers',p_def:'Defenders',p_mid:'Midfielders',p_fw:'Forwards',nodata:'No data found',BRA:'Brazil',AZE:'Azerbaijan'}
+};
+I18N.ru.copy = '<b>AzFoot</b> © 2026. Все права защищены.'; I18N.ru.made = 'Создатели: Рза и Яхья';
+I18N.az.copy = '<b>AzFoot</b> © 2026. Bütün hüquqlar qorunur.'; I18N.az.made = 'Yaradıcılar: Rza və Yahya';
+I18N.en.copy = '<b>AzFoot</b> © 2026. All rights reserved.'; I18N.en.made = 'Created by Rza and Yahya';
+for (const l in I18N_G) for (const k in I18N_G[l]) if (!(k in I18N[l])) I18N[l][k] = I18N_G[l][k];
+
+let BEST = [
+  ['Leandro Andrade','Qarabağ','3.3'],['Toral Bayramov','Qarabağ','2.4'],['Juninho','Qarabağ','2.2'],
+  ['Elvin Jafarguliyev','Qarabağ','1.8'],['Kahim Parris','Sabah','1.3'],['Suleyman Allush','Sabail','1.2'],
+  ['Marko Janković','Qarabağ','1.0'],['Aykhan Suleymanli','Sumgayit','0.9'],['Salifu Suma','Zira','0.8'],['Júlio Romão','Qarabağ','0.8'],
+];
+function renderBest() {
+  $('#bestlist').innerHTML = BEST.map(([n, c, v], i) => `<li class="brow${i === 0 ? ' top' : ''}"><span class="rk">${i + 1}</span><span class="bi"><span class="bn">${n}</span><span class="bc">${c}</span></span><span class="bv">${v} ${t('best_u')}</span></li>`).join('');
+}
+$('#toBest').onclick = () => $('#best').scrollIntoView({behavior:'smooth'});
+
+const G = {r:0, g:0, res:[], busy:false, msg:'', over:false};
+function gUI() {
+  $('#gscore').textContent = t('g_sc') + ': ' + G.g + ' · ' + t('g_rd') + ' ' + Math.min(G.r + (G.over ? 0 : 1), 5) + '/5';
+  $('#gdots').innerHTML = Array.from({length:5}, (_, i) => `<i class="${G.res[i] === undefined ? '' : G.res[i] ? 'g' : 'm'}${i === G.res.length - 1 ? ' n' : ''}"></i>`).join('');
+  $('#gmsg').textContent = G.msg ? t(G.msg) : '';
+  $('#again').style.display = G.over ? '' : 'none';
+}
+function gReset(full) {
+  $('#keeper').className = 'keeper'; $('#ball').className = 'ball';
+  if (full) { G.r = 0; G.g = 0; G.res = []; G.over = false; G.msg = ''; }
+  G.busy = false; gUI();
+}
+function shoot(side) {
+  if (G.busy || G.over) return;
+  G.busy = true; G.msg = '';
+  const k = Math.random() < .5 ? 'L' : 'R', goal = k !== side;
+  $('#keeper').className = 'keeper ' + k;
+  $('#ball').className = 'ball ' + side;
+  setTimeout(() => {
+    G.res.push(goal); G.r++; if (goal) G.g++;
+    G.msg = goal ? 'g_goal' : 'g_save';
+    if (G.r === 5) { G.over = true; G.msg = G.g >= 3 ? 'g_win' : 'g_lose'; }
+    gUI(); shootFx(goal);
+    if (!G.over) setTimeout(() => { G.msg = ''; gReset(false); }, 1100);
+  }, 500);
+}
+const stage = $('#stage');
+stage.addEventListener('mousedown', e => { e.preventDefault(); if (e.button === 0) shoot('L'); else if (e.button === 2) shoot('R'); });
+stage.addEventListener('contextmenu', e => e.preventDefault());
+$('#shootL').onclick = () => shoot('L');
+$('#shootR').onclick = () => shoot('R');
+$('#again').onclick = () => gReset(true);
+$('#toGame').onclick = () => $('#game').scrollIntoView({behavior:'smooth'});
+
+// [имя, клуб S=Sabah Q=Qarabağ, рыночная стоимость млн €]
+let PACK = [
+  ['Leandro Andrade','Q',3.3],['Toral Bayramov','Q',2.4],['Juninho','Q',2.2],['Elvin Jafarguliyev','Q',1.8],
+  ['Marko Janković','Q',1.0],['Júlio Romão','Q',.8],['Ramil Sheydayev','Q'],['Musa Gurbanli','Q'],['Abdellah Zoubir','Q'],['Mahir Emreli','Q'],
+  ['Kahim Parris','S',1.3],['Júnior Almeida','S'],['Akim Zedadka','S'],['Tellur Mutallimov','S'],['Steve Solvet','S'],
+  ['Tymoteusz Puchacz','S'],['Rahman Dashdamirov','S'],['Aden McCarthy','S'],['Rauf Rustamli','S'],['Seymur Mammadov','S'],
+].map(([n, c, v]) => {
+  // оценочный рейтинг: по рыночной стоимости (млн €); без данных — 64–69 по имени
+  const h = [...n].reduce((a, ch) => a + ch.charCodeAt(0), 0);
+  const rt = v ? Math.round(66 + 6 * Math.log2(1 + v)) : 64 + h % 6;
+  return {n, c, v, rt, r: v >= 2 ? 'l' : v >= 1 ? 'r' : 'c'};
+});
+
+// ===== Английская Премьер-лига 2026/27 =====
+const AZD = {TABLE, L, BEST, PACK};
+const CLN = c => ({S:'Sabah', Q:'Qarabağ', L:'Liverpool', C:'Man City'})[c];
+const ECL = ['Arsenal','Manchester City','Manchester United','Aston Villa','Liverpool'];
+const ABB = {'Manchester City':'MCI','Arsenal':'ARS','Brighton':'BHA','Brentford':'BRE','Leeds United':'LEE','Liverpool':'LIV','Everton':'EVE','Hull City':'HUL','Newcastle United':'NEW','Chelsea':'CHE','Ipswich Town':'IPS','Manchester United':'MUN','Nottingham Forest':'NFO','Sunderland':'SUN','Crystal Palace':'CRY','Aston Villa':'AVL','Bournemouth':'BOU','Coventry City':'COV','Fulham':'FUL','Tottenham Hotspur':'TOT'};
+const EPL_COACH = {'Arsenal':'Mikel Arteta','Aston Villa':'Unai Emery','Bournemouth':'Marco Rose','Brentford':'Keith Andrews','Brighton':'Fabian Hürzeler','Chelsea':'Xabi Alonso','Coventry City':'Frank Lampard','Crystal Palace':'Pierre Sage','Everton':'David Moyes','Fulham':'Álvaro Arbeloa','Hull City':'Sergej Jakirović','Ipswich Town':'Gary O’Neil','Leeds United':'Daniel Farke','Liverpool':'Andoni Iraola','Manchester City':'Enzo Maresca','Manchester United':'Michael Carrick','Newcastle United':'Matthias Jaissle','Nottingham Forest':'Oliver Glasner','Sunderland':'Régis Le Bris','Tottenham Hotspur':'Roberto De Zerbi'};
+const EPL_TABLE = [['Manchester City',5,5,0,0,13,5,15],['Arsenal',5,4,0,1,8,4,12],['Brighton',5,3,1,1,16,5,10],['Brentford',5,2,3,0,10,4,9],['Leeds United',5,2,3,0,7,3,9],['Liverpool',5,2,3,0,7,4,9],['Everton',5,2,3,0,6,3,9],['Hull City',5,2,2,1,6,4,8],['Newcastle United',5,2,2,1,9,9,8],['Chelsea',5,2,1,2,10,12,7],['Ipswich Town',5,2,0,3,7,11,6],['Manchester United',5,1,2,2,8,8,5],['Nottingham Forest',5,1,2,2,4,5,5],['Sunderland',5,1,1,3,6,10,4],['Crystal Palace',5,1,1,3,6,11,4],['Aston Villa',5,1,1,3,4,9,4],['Bournemouth',5,0,3,2,6,8,3],['Coventry City',5,1,0,4,1,10,3],['Fulham',5,0,2,3,5,8,2],['Tottenham Hotspur',5,0,2,3,2,8,2]];
+const EPL_L = [['2026-08-23','Brighton','Aston Villa',[4,0]],['2026-08-29','Bournemouth','Everton',[1,1]],['2026-08-30','Chelsea','Brighton',[4,3]],['2026-08-30','Manchester United','Ipswich Town',[5,2]],['2026-09-13','Manchester United','Manchester City',[0,1]],['2026-09-13','Coventry City','Brighton',[0,5]],
+['2026-10-10','Arsenal','Leeds United'],['2026-10-10','Sunderland','Brighton'],['2026-10-10','Aston Villa','Brentford'],['2026-10-11','Liverpool','Manchester City',0,0,'n_big'],['2026-10-11','Hull City','Everton'],['2026-10-12','Coventry City','Newcastle United']];
+const EPL_BEST = [['Erling Haaland','Manchester City','4'],['Dominic Calvert-Lewin','Leeds United','3'],['Bruno Fernandes','Manchester United','3'],['Pascal Groß','Brighton','3'],['Alexander Isak','Liverpool','3'],['João Pedro','Chelsea','3'],['Morgan Rogers','Aston Villa','3'],['Bukayo Saka','Arsenal','3'],['Kevin Schade','Brentford','3'],['Marcus Tavernier','Bournemouth','3']];
+const EPL_SQUAD = {
+ 'Liverpool': [['p_gk',[[null,'Alisson','BRA'],[null,'Giorgi Mamardashvili','GEO'],[null,'Freddy Woodman','ENG'],[null,'Vítězslav Jaroš','CZE']]],
+  ['p_def',[[null,'Joe Gomez','ENG'],[null,'Virgil van Dijk','NED'],[null,'Jérémy Jacquet','FRA'],[null,'Miloš Kerkez','HUN'],[null,'Conor Bradley','NIR'],[null,'Giovanni Leoni','ITA'],[null,'Kostas Tsimikas','GRE'],[null,'Jeremie Frimpong','NED'],[null,'Ronald Araújo','URU'],[null,'Luke Chambers','ENG'],[null,'Isaac Mbuyaya','']]],
+  ['p_mid',[[null,'Florian Wirtz','GER'],[null,'Dominik Szoboszlai','HUN'],[null,'Alexis Mac Allister','ARG'],[null,'Víctor Muñoz','ESP'],[null,'Ryan Gravenberch','NED'],[null,'James McConnell','ENG']]],
+  ['p_fw',[[null,'Alexander Isak','SWE'],[null,'Cody Gakpo','NED'],[null,'Hugo Ekitike','FRA'],[null,'Bradley Barcola','FRA']]]],
+ 'Manchester City': [['p_gk',[[1,'Gianluigi Donnarumma','ITA'],[13,'Marcus Bettinelli','ENG'],[28,'Gerónimo Rulli','ARG'],[94,'Max-Edgar Chabot','FRA']]],
+  ['p_def',[[3,'Rúben Dias','POR'],[6,'Marc Guéhi','ENG'],[21,'Rayan Aït-Nouri','ALG'],[22,'Vitor Reis','BRA'],[24,'Joško Gvardiol','CRO'],[45,'Abdukodir Khusanov','UZB'],[61,'Kaden Braithwaite','ENG'],[82,'Rico Lewis','ENG']]],
+  ['p_mid',[[5,'Elliot Anderson','ENG'],[8,'Mateo Kovačić','CRO'],[10,'Rayan Cherki','FRA'],[11,'Jeremy Doku','BEL'],[17,'Enzo Fernández','ARG'],[27,'Matheus Nunes','POR'],[32,'Ayyoub Bouaddi','MAR'],[33,'Nico O’Reilly','ENG'],[47,'Phil Foden','ENG'],[75,'Floyd Samba','FRA']]],
+  ['p_fw',[[7,'Iliman Ndiaye','SEN'],[9,'Erling Haaland','NOR'],[37,'Allan Elias','BRA'],[42,'Antoine Semenyo','GHA'],[56,'Ryan McAidoo','ENG']]]]
+};
+// пак-ивент Liverpool × Man City: [имя, клуб L/C, оценочный рейтинг]
+const EPL_PACK = [['Alisson','L',86],['Virgil van Dijk','L',85],['Florian Wirtz','L',88],['Dominik Szoboszlai','L',85],['Alexis Mac Allister','L',85],['Ryan Gravenberch','L',85],['Alexander Isak','L',85],['Hugo Ekitike','L',84],['Cody Gakpo','L',83],['Bradley Barcola','L',83],['Conor Bradley','L',82],['Jeremie Frimpong','L',82],['Miloš Kerkez','L',80],['Ronald Araújo','L',81],['Giorgi Mamardashvili','L',82],
+['Erling Haaland','C',91],['Gianluigi Donnarumma','C',86],['Rúben Dias','C',85],['Joško Gvardiol','C',84],['Marc Guéhi','C',84],['Rayan Cherki','C',85],['Phil Foden','C',86],['Enzo Fernández','C',85],['Antoine Semenyo','C',84],['Elliot Anderson','C',83],['Jeremy Doku','C',82],['Matheus Nunes','C',82],['Iliman Ndiaye','C',80],['Rayan Aït-Nouri','C',81],['Nico O’Reilly','C',79]]
+ .map(([n, c, rt]) => ({n, c, v:undefined, rt, r: rt >= 88 ? 'l' : rt >= 84 ? 'r' : 'c'}));
+const EPLD = {TABLE:EPL_TABLE, L:EPL_L, BEST:EPL_BEST, PACK:EPL_PACK};
+const EPL_I = {
+ ru:{b_lg:'Английская Премьер Лига', b_lg_e:'Азербайджанская Премьер-лига', h_sub_e:'Английская Премьер-лига · сезон 2026/27', sub_o_e:'Английская Премьер-лига', comp_epl:'Premier League', t_note_e:'Данные: Sports Mole / StandingsToday на 3 октября 2026, у каждого клуба по 5 матчей.', foot_o_e:'Матчи АПЛ 2026/27 из открытых источников: часть результатов и ближайший тур 10–12 октября; полный календарь не загружен.', best_h2_e:'Топ-10 бомбардиров АПЛ', best_note_e:'По данным Wikipedia / Premier League на 19 сентября 2026; с тех пор голы могли добавиться.', best_u_e:'гол.', pk_hint_e:'Ивент: Liverpool × Man City — главный матч тура АПЛ, 11 октября, Anfield. Нажми на пак — он откроется с фанфарами: 5 карточек игроков обоих клубов. Рейтинг оценочный, не официальный.', coach_e:'Главный тренер: {c}. Состав — заявка на Лигу чемпионов 2026/27 (UEFA); «·» — номер не подтверждён. Рейтинг и стоимость не указаны.', tix_epl:'Официальный сайт клуба-хозяина', tix_epl_n:'Билеты на АПЛ продаются через клубы; у перепродавцов цены выше номинала.', n_big:'Главный матч тура · Anfield'},
+ az:{b_lg:'İngiltərə Premyer Liqası', b_lg_e:'Azərbaycan Premyer Liqası', h_sub_e:'İngiltərə Premyer Liqası · 2026/27 mövsümü', sub_o_e:'İngiltərə Premyer Liqası', comp_epl:'Premier League', t_note_e:'Məlumat: Sports Mole / StandingsToday, 3 oktyabr 2026, hər klub 5 oyun keçirib.', foot_o_e:'Açıq mənbələrdə tapılan 2026/27 APL matçları: bəzi nəticələr və 10–12 oktyabr turu; tam təqvim yüklənməyib.', best_h2_e:'APL-in ilk 10 bombardiri', best_note_e:'Wikipedia / Premier League, 19 sentyabr 2026; o vaxtdan qollar artmış ola bilər.', best_u_e:'qol', pk_hint_e:'Tədbir: Liverpool × Man City — turun əsas oyunu, 11 oktyabr, Anfield. Pakın üstünə bas: iki klubun 5 oyunçu kartı. Reytinq təxminidir, rəsmi deyil.', coach_e:'Baş məşqçi: {c}. Heyət — UEFA Çempionlar Liqası 2026/27 siyahısı; «·» — nömrə təsdiqlənməyib. Reytinq və dəyər göstərilmir.', tix_epl:'Ev sahibi klubun rəsmi saytı', tix_epl_n:'APL biletləri klublar vasitəsilə satılır; təkrar satıcılarda qiymət daha yüksəkdir.', n_big:'Turun əsas oyunu · Anfield'},
+ en:{b_lg:'English Premier League', b_lg_e:'Azerbaijan Premier League', h_sub_e:'English Premier League · 2026/27 season', sub_o_e:'English Premier League', comp_epl:'Premier League', t_note_e:'Data: Sports Mole / StandingsToday as of 3 October 2026, 5 games played by each club.', foot_o_e:'2026/27 Premier League matches found in open sources: some results and the 10–12 October round; full calendar not loaded.', best_h2_e:'Premier League top 10 scorers', best_note_e:'Per Wikipedia / Premier League as of 19 September 2026; totals may have changed since.', best_u_e:'goals', pk_hint_e:'Event: Liverpool × Man City — the big game of the round, 11 October, Anfield. Tap the pack: 5 player cards from both clubs. Ratings are estimates, not official.', coach_e:'Head coach: {c}. Squad = UEFA Champions League 2026/27 list; “·” = number not confirmed. Ratings and values not shown.', tix_epl:'Home club’s official website', tix_epl_n:'Premier League tickets are sold via the clubs; resellers charge above face value.', n_big:'Game of the round · Anfield'}
+};
+for (const l in EPL_I) Object.assign(I18N[l], EPL_I[l]);
+function setLeague(l, init) {
+  LG = l; try { localStorage.setItem('league', l); } catch (e) {}
+  const D = l === 'az' ? AZD : EPLD;
+  TABLE = D.TABLE; L = D.L; BEST = D.BEST; PACK = D.PACK;
+  CUR = l === 'az' ? 'Sabah' : 'Liverpool'; curTab = 'next';
+  document.body.classList.toggle('epl', l === 'epl');
+  $('#pkSmall').textContent = l === 'az' ? 'Sabah × Qarabağ' : 'Liverpool × Man City';
+  $('#cards').innerHTML = ''; packOpen = false; lastPick = [];
+  setLang(LANG);
+  if (!init) view('home');
+}
+$('#lgBtn').onclick = () => setLeague(LG === 'az' ? 'epl' : 'az');
+
+let ac;
+function tone(fr, t0, d, type = 'triangle', vol = .18) {
+  const o = ac.createOscillator(), g = ac.createGain();
+  o.type = type; o.frequency.value = fr; o.connect(g); g.connect(ac.destination);
+  const T = ac.currentTime + t0;
+  g.gain.setValueAtTime(0, T); g.gain.linearRampToValueAtTime(vol, T + .02); g.gain.exponentialRampToValueAtTime(.001, T + d);
+  o.start(T); o.stop(T + d + .05);
+}
+function sound(kind) {
+  try {
+    ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+    if (ac.state === 'suspended') ac.resume();
+    if (kind === 'charge') { for (let i = 0; i < 8; i++) tone(200 + i * 70, i * .1, .2, 'sawtooth', .06); }
+    else if (kind === 'fanfare') { [523, 659, 784, 1047].forEach((q, i) => tone(q, i * .12, .35)); [523, 659, 784, 1047].forEach(q => tone(q, .55, .9, 'triangle', .1)); }
+    else if (kind === 'big') { [523, 659, 784, 1047, 1319, 1568].forEach((q, i) => tone(q, i * .1, .4)); [523, 659, 784, 1047, 1568].forEach(q => tone(q, .7, 1.4, 'square', .06)); }
+    else if (kind === 'flip') tone(880, 0, .15, 'sine', .12);
+    else if (kind === 'coin') { tone(1175, 0, .08, 'square', .06); tone(1568, .06, .15, 'square', .06); }
+    else if (kind === 'buy') { [659, 784, 1047, 1319].forEach((q, i) => tone(q, i * .08, .3, 'triangle', .15)); }
+    else if (kind === 'no') tone(150, 0, .25, 'sawtooth', .12);
+  } catch (e) {}
+}
+let packOpen = false, packBusy = false, lastPick = [];
+function openPack() {
+  if (packBusy) return; packBusy = true;
+  const pk = $('#pk'); pk.classList.remove('zoom'); void pk.offsetWidth; pk.classList.add('zoom');
+  $('#cards').innerHTML = '';
+  sound('charge');
+  const w = {c:6, r:3, l:1}, pool = PACK.slice(), pick = [];
+  while (pick.length < 5) {
+    const tot = pool.reduce((a, p) => a + w[p.r], 0); let x = Math.random() * tot, i = 0;
+    for (; i < pool.length; i++) { x -= w[pool[i].r]; if (x <= 0) break; }
+    pick.push(pool.splice(Math.min(i, pool.length - 1), 1)[0]);
+  }
+  packOpen = true; lastPick = pick;
+  setTimeout(() => {
+    sound(pick.some(p => p.r === 'l') ? 'big' : 'fanfare');
+    $('#cards').innerHTML = pick.map(p => `<div class="pc ${p.r === 'l' ? 'leg' : p.r === 'r' ? 'rare' : ''}"><div><span class="b">\u26BD</span><span class="f"><span class="rr">${t('r_' + p.r)}</span><span class="rt">${p.rt}</span><span class="ps">${t('pk_ovr')}</span><span class="pn">${p.n}</span><span class="pcl ${p.c}">${CLN(p.c)}</span><span class="pv">${p.v ? p.v.toFixed(1) + ' ' + t('best_u') : '&nbsp;'}</span></span></div></div>`).join('');
+    const flip = c => { if (c.classList.contains('up')) return; c.classList.add('up'); sound('flip'); };
+    document.querySelectorAll('.pc').forEach((c, i) => {
+      c.onclick = () => c.classList.contains('up') ? openCard(lastPick[i]) : flip(c);
+      setTimeout(() => flip(c), 700 + i * 500);
+    });
+    $('#pk').querySelector('b').textContent = t('pk_again');
+    packBusy = false;
+  }, 1000);
+}
+$('#pk').onclick = openPack;
+$('#pk').addEventListener('animationend', e => { if (e.animationName === 'pkz') e.currentTarget.classList.remove('zoom'); });
+$('#toPack').onclick = () => $('#pack').scrollIntoView({behavior:'smooth'});
+
+// токены, кликер, покупка карточек
+const ST = {tk:100, own:[]};
+try { const sv = JSON.parse(localStorage.getItem('sabah_pack') || 'null'); if (sv) { ST.tk = sv.tk; ST.own = sv.own || []; } } catch (e) {}
+const saveST = () => { try { localStorage.setItem('sabah_pack', JSON.stringify(ST)); } catch (e) {} };
+const priceOf = p => Math.round(10 * Math.pow(1.18, p.rt - 60));
+let curCard = null, mNoFunds = false;
+function tkUI() {
+  $('#tk').textContent = ST.tk; if (window._lastTk !== undefined && window._lastTk !== ST.tk) fx($('#tk'), 'bump'); window._lastTk = ST.tk;
+  $('#coll').innerHTML = ST.own.length ? ST.own.map(p => `<span><b>${p.rt}</b>${p.n}</span>`).join('') : `<span style="border-style:dashed;opacity:.6">${t('coll_e')}</span>`;
+}
+function mUI() {
+  const p = curCard; if (!p) return;
+  const owned = ST.own.some(o => o.n === p.n), pr = priceOf(p);
+  $('#mbox').innerHTML = `<div class="mcard ${p.r === 'l' ? 'leg' : p.r === 'r' ? 'rare' : ''}"><span class="rr">${t('r_' + p.r)}</span><span class="rt">${p.rt}</span><span class="ps">${t('pk_ovr')}</span><span class="pn">${p.n}</span><span class="pcl ${p.c}">${CLN(p.c)}</span></div>
+    <div class="mprice">${t('m_pr')}: \uD83E\uDE99 <b>${pr}</b> · \uD83E\uDE99 ${ST.tk}</div>
+    <div class="mmsg">${mNoFunds ? t('m_nf') : ''}</div>
+    <div class="mbtns"><button class="btn solid" id="mbuy" ${owned ? 'disabled' : ''}>${owned ? t('m_own') : t('m_buy')}</button><button class="btn ghost" id="mcl">${t('m_cl')}</button></div>`;
+  $('#mcl').onclick = closeCard;
+  $('#mbuy').onclick = () => {
+    if (ST.own.some(o => o.n === p.n)) return;
+    if (ST.tk < pr) { mNoFunds = true; sound('no'); mUI(); return; }
+    ST.tk -= pr; ST.own.push({n:p.n, c:p.c, rt:p.rt, r:p.r, pos:null}); window._drop = p.n; saveST(); mNoFunds = false; sound('buy'); tkUI(); renderIdx(); mUI();
+  };
+}
+function openCard(p) { curCard = p; mNoFunds = false; mUI(); $('#modal').classList.add('open'); }
+function closeCard() { $('#modal').classList.remove('open'); curCard = null; }
+$('#modal').onclick = e => { if (e.target.id === 'modal') closeCard(); };
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCard(); });
+$('#clk').onclick = () => {
+  ST.tk += 5; saveST(); tkUI(); sound('coin');
+  const x = document.createElement('span'); x.className = 'fl'; x.textContent = '+5'; $('#clkw').appendChild(x); setTimeout(() => x.remove(), 800);
+};
+
+// Indeks: расстановка купленных игроков (перетаскивание)
+function renderIdx() {
+  const pitch = $('#ixpitch'), bench = $('#ixbench'), cnt = [0, 0, 0];
+  pitch.querySelectorAll('.ixchip').forEach(e => e.remove());
+  bench.innerHTML = '';
+  ST.own.forEach(p => {
+    const d = document.createElement('div');
+    d.className = 'ixchip ' + p.c + (window._drop === p.n ? ' drop' : ''); d.title = p.n;
+    d.innerHTML = `<b>${p.rt}</b><span>${p.n.split(' ').slice(-1)[0]}</span>`;
+    d.onpointerdown = e => startDrag(e, p, d);
+    if (p.pos) { d.classList.add('onp'); d.style.left = p.pos.x + '%'; d.style.top = p.pos.y + '%'; pitch.appendChild(d); cnt[p.pos.y < 33.34 ? 0 : p.pos.y < 66.67 ? 1 : 2]++; }
+    else bench.appendChild(d);
+  });
+  if (!bench.children.length) bench.innerHTML = `<em>${t('ix_empty')}</em>`;
+  $('#zA').textContent = t('z_att') + ' · ' + cnt[0];
+  $('#zM').textContent = t('z_mid') + ' · ' + cnt[1];
+  $('#zD').textContent = t('z_def') + ' · ' + cnt[2]; window._drop = null;
+}
+function startDrag(e, p, el) {
+  e.preventDefault();
+  const g = el.cloneNode(true); g.classList.add('ghost'); document.body.appendChild(g);
+  el.style.opacity = .3;
+  $('#ixpitch').classList.add('dragging'); $('#ixbench').classList.add('dragging');
+  const mv = ev => { g.style.left = ev.clientX + 'px'; g.style.top = ev.clientY + 'px'; };
+  const inside = (r, ev) => ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom;
+  const up = ev => {
+    window.removeEventListener('pointermove', mv); window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up);
+    g.remove(); el.style.opacity = '';
+    $('#ixpitch').classList.remove('dragging'); $('#ixbench').classList.remove('dragging');
+    const pr = $('#ixpitch').getBoundingClientRect(), br = $('#ixbench').getBoundingClientRect();
+    if (inside(pr, ev)) {
+      p.pos = {x: Math.min(94, Math.max(6, (ev.clientX - pr.left) / pr.width * 100)), y: Math.min(94, Math.max(6, (ev.clientY - pr.top) / pr.height * 100))};
+    } else if (inside(br, ev)) p.pos = null;
+    if (inside(pr, ev) || inside(br, ev)) window._drop = p.n;
+    saveST(); renderIdx();
+  };
+  mv(e);
+  window.addEventListener('pointermove', mv); window.addEventListener('pointerup', up); window.addEventListener('pointercancel', up);
+}
+$('#toIdx').onclick = () => $('#idx').scrollIntoView({behavior:'smooth'});
+function setLang(l) {
+  LANG = l;
+  try { localStorage.setItem('lang', l); } catch (e) {}
+  document.documentElement.lang = l;
+  document.title = t('title');
+  document.querySelectorAll('[data-i18n]').forEach(el => el.innerHTML = t(el.dataset.i18n));
+  document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('on', b.dataset.lang === l));
+  applyClub();
+  renderClubs();
+  renderTable();
+  renderBest(); gUI(); tkUI(); renderIdx();
+  if (curCard) mUI();
+  if (packOpen) $('#pk').querySelector('b').textContent = t('pk_again');
+}
+document.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => setLang(b.dataset.lang));
+function view(v) { ['home', 'table', 'club'].forEach(x => $('#' + x).style.display = x === v ? '' : 'none'); window.scrollTo(0, 0); }
+function applyClub() {
+  const sb = LG === 'az' && CUR === 'Sabah', i = TABLE.findIndex(r => r[0] === CUR);
+  document.title = CUR + ' — ' + (LG === 'az' ? 'Premyer Liqa' : 'Premier League') + ' 2026/27';
+  $('#brand').textContent = CUR;
+  $('[data-i18n="sub"]').textContent = t(sb ? 'sub' : 'sub_o');
+  $('#tags').innerHTML = '<span>' + (LG === 'az' ? 'Premyer Liqa' : 'Premier League') + '</span>' + (sb || (LG === 'epl' && ECL.includes(CUR)) ? '<span>Champions League</span>' : '');
+  $('#chips').innerHTML = '<span class="chip">' + (LG === 'az' ? 'Premyer Liqa' : 'Premier League') + '</span>' + (sb ? '<span class="chip">' + t('comp_ucl') + '</span><span class="chip">Bank Respublika Arena</span>' : '<span class="chip">#' + (i + 1) + ' · ' + TABLE[i][7] + ' ' + t('th_pts') + '</span>' + (LG === 'epl' ? '<span class="chip">' + EPL_COACH[CUR] + '</span>' : ''));
+  $('#matches h2').textContent = t('m_h2') + ' · ' + CUR;
+  $('#squad h2').textContent = t('s_h2') + ' · ' + CUR;
+  $('#squad > .coach').textContent = sb ? t('coach') : (LG === 'epl' && EPL_SQUAD[CUR] ? t('coach_e', {c:EPL_COACH[CUR]}) : '');
+  $('#matches .foot-note').textContent = t(sb ? 'foot' : 'foot_o');
+  $('#archive').style.display = sb ? '' : 'none';
+  render(curTab); renderSquad(); renderSeasons();
+}
+function openClub(id) { CUR = id; curTab = 'next'; view('club'); applyClub(); }
+function renderClubs() {
+  $('#clubs').innerHTML = TABLE.map((r, i) => `<button class="pl club" data-id="${r[0]}"><span class="mono">${(ABB[r[0]] || r[0].slice(0, 2)).toUpperCase()}</span><span class="nm">${r[0]}</span><span class="meta">#${i + 1} · ${r[7]} ${t('th_pts')}</span></button>`).join('');
+  document.querySelectorAll('.club').forEach(b => b.onclick = () => openClub(b.dataset.id));
+}
+function renderTable() {
+  $('#tbody').innerHTML = TABLE.map((r, i) => { const d = r[5] - r[6]; return `<tr class="${(LG === 'az' ? r[0] === 'Sabah' : r[0] === 'Liverpool' || r[0] === 'Manchester City') ? 'me' : ''}"><td>${i + 1}</td><td class="l"><button class="tc" data-id="${r[0]}">${r[0]}</button></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}:${r[6]}</td><td>${d > 0 ? '+' : ''}${d}</td><td class="pts">${r[7]}</td></tr>`; }).join('');
+  document.querySelectorAll('.tc').forEach(b => b.onclick = () => openClub(b.dataset.id));
+}
+$('#hTable').onclick = $('#cTable').onclick = () => view('table');
+$('#tBack').onclick = $('#cHome').onclick = $('#logo').onclick = () => view('home');
+setLeague(LG, true);
+
+if (hasMotion) {
+  const a = (s, k, o) => Motion.animate($(`[data-a="${s}"]`), k, {ease, ...o});
+  a('nav',    {opacity:[0,1], y:[-16,0]},   {duration:.8});
+  a('video',  {opacity:[0,1], scale:[1.05,1]}, {duration:1.8});
+  a('footer', {opacity:[0,1], y:[20,0]},    {duration:.8, delay:.5});
+  a('sub',    {opacity:[0,1], y:[16,0]},    {duration:.8, delay:.6});
+  a('h1',     {opacity:[0,1], y:[20,0]},    {duration:.8, delay:.8});
+  a('btns',   {opacity:[0,1], y:[16,0]},    {duration:.8, delay:1});
+}
+
+// ===== ANIMATIONS =====
+function fx(el, cls) {
+  if (!el) return;
+  el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls);
+  const h = e => { if (e.target === el) { el.classList.remove(cls); el.removeEventListener('animationend', h); } };
+  el.addEventListener('animationend', h);
+}
+function confetti(host) {
+  const cols = ['#1e5bd8', '#ffffff', '#ffd700', '#1a9a4b', '#d33'];
+  for (let i = 0; i < 46; i++) {
+    const c = document.createElement('i'); c.className = 'cf';
+    c.style.cssText = `left:${Math.random() * 100}%;background:${cols[i % 5]};--dx:${(Math.random() - .5) * 160}px;--r:${Math.random() * 720}deg;animation-delay:${Math.random() * .25}s`;
+    host.appendChild(c); setTimeout(() => c.remove(), 2200);
+  }
+}
+function shootFx(goal) {
+  fx($('#gmsg'), 'pop');
+  fx($('#stage'), goal ? 'goalfx' : 'shake');
+  if (G.over && G.g >= 3) confetti($('#stage'));
+}
+function enter(el) { if (!el) return; el.classList.remove('vin'); void el.offsetWidth; el.classList.add('vin'); }
+function heroAnim() {
+  if (!hasMotion) return;
+  const a = (s, k, o) => Motion.animate($(`[data-a="${s}"]`), k, {ease, ...o});
+  a('nav', {opacity:[0,1], y:[-16,0]}, {duration:.8});
+  a('video', {opacity:[0,1], scale:[1.05,1]}, {duration:1.8});
+  a('footer', {opacity:[0,1], y:[20,0]}, {duration:.8, delay:.5});
+  a('sub', {opacity:[0,1], y:[16,0]}, {duration:.8, delay:.6});
+  a('h1', {opacity:[0,1], y:[20,0]}, {duration:.8, delay:.8});
+  a('btns', {opacity:[0,1], y:[16,0]}, {duration:.8, delay:1});
+}
+const _view = view;
+view = function (v) { _view(v); if (v === 'club') heroAnim(); else enter($('#' + v)); };
+enter($('#home'));
+
+// появление элементов при прокрутке (в т.ч. динамически созданных)
+(function () {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+  const SEL = '.matches h2,.squad h2,.best h2,.game h2,.pack h2,.idx h2,.arch h2,.coach,.pos,.pl,.brow,.card,.tbl tbody tr,.tkbar,.gbar,.stage,.gctl,.collh,.coll,.ixpitch,.ixbench,.foot-note,.tabs,.sitefoot';
+  const io = new IntersectionObserver(es => {
+    let n = 0;
+    es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target; io.unobserve(el);
+      el.style.setProperty('--d', Math.min(n++ * 70, 420) + 'ms');
+      requestAnimationFrame(() => el.classList.add('in'));
+      setTimeout(() => el.classList.remove('rv', 'in'), 1600);
+    });
+  }, {threshold: .1, rootMargin: '0px 0px -5% 0px'});
+  const reg = root => {
+    const list = root.matches && root.matches(SEL) ? [root] : [];
+    root.querySelectorAll && root.querySelectorAll(SEL).forEach(x => list.push(x));
+    list.forEach(el => { if (el._rv) return; el._rv = 1; el.classList.add('rv'); io.observe(el); });
+  };
+  reg(document.body);
+  new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => n.nodeType === 1 && reg(n)))).observe(document.body, {childList:true, subtree:true});
+})();
+
+// полоса прогресса прокрутки
+(function () {
+  const bar = $('#prog'); let tick = false;
+  addEventListener('scroll', () => {
+    if (tick) return; tick = true;
+    requestAnimationFrame(() => {
+      const h = document.documentElement;
+      bar.style.transform = `scaleX(${scrollY / Math.max(1, h.scrollHeight - innerHeight)})`; tick = false;
+    });
+  }, {passive:true});
+})();
+</script>
+</body>
+</html>
